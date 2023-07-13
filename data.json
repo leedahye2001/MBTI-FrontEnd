@@ -1,0 +1,182 @@
+{
+  "posts": [
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 2,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content"
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 3,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content11111"
+    },
+    {
+      "createdAt": "2023-07-09T21:36:22.184091",
+      "updatedAt": "2023-07-09T21:36:22.184091",
+      "id": 4,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content2"
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 5,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content456456456"
+    },
+    {
+      "createdAt": "2023-07-09T21:36:22.184091",
+      "updatedAt": "2023-07-09T21:36:22.184091",
+      "id": 6,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content2"
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 7,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content"
+    },
+    {
+      "createdAt": "2023-07-09T21:36:22.184091",
+      "updatedAt": "2023-07-09T21:36:22.184091",
+      "id": 8,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content2"
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 9,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content"
+    },
+    {
+      "createdAt": "2023-07-09T21:36:22.184091",
+      "updatedAt": "2023-07-09T21:36:22.184091",
+      "id": 10,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content2"
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 11,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content"
+    },
+    {
+      "createdAt": "2023-07-09T21:36:22.184091",
+      "updatedAt": "2023-07-09T21:36:22.184091",
+      "id": 12,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content2"
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 13,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content"
+    },
+    {
+      "createdAt": "2023-07-09T21:36:22.184091",
+      "updatedAt": "2023-07-09T21:36:22.184091",
+      "id": 14,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content2"
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 15,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content"
+    },
+    {
+      "createdAt": "2023-07-09T21:36:22.184091",
+      "updatedAt": "2023-07-09T21:36:22.184091",
+      "id": 16,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content2"
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 17,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content"
+    },
+    {
+      "createdAt": "2023-07-09T21:36:22.184091",
+      "updatedAt": "2023-07-09T21:36:22.184091",
+      "id": 18,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content2"
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 19,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content"
+    },
+    {
+      "createdAt": "2023-07-09T21:36:22.184091",
+      "updatedAt": "2023-07-09T21:36:22.184091",
+      "id": 20,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content2"
+    },
+    {
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "aereawraewr",
+      "id": 21
+    }
+  ],
+  "comment": [
+    {
+      "id": 1,
+      "nickname": "종현1",
+      "content": "나는 인팁",
+      "mbti": "INTP"
+    },
+    {
+      "id": 2,
+      "nickname": "종현2",
+      "content": "근데 잇팁같은데",
+      "mbti": "ISTP"
+    },
+    {
+      "id": 3,
+      "nickname": "종현3",
+      "content": "나는 아니라고 생각해 내 말 들어봐",
+      "mbti": "ESTJ"
+    }
+  ]
+}
