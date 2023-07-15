@@ -1,0 +1,198 @@
+{
+  "posts": [
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 2,
+      "mbti": "ISFP",
+      "nickname": "aaaa",
+      "content": "content",
+      "comments": [
+        {
+          "id": 1,
+          "nickname": "종현1",
+          "content": "나는 인팁",
+          "mbti": "INTP"
+        },
+        {
+          "id": 2,
+          "nickname": "종현2",
+          "content": "근데 잇팁같은데",
+          "mbti": "ISTP"
+        }
+      ]
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 9,
+      "mbti": "INTP",
+      "nickname": "나는 INTP",
+      "content": "귀찮아",
+      "comments": [
+        {
+          "nickname": "종현1",
+          "content": "ㄴㄴ",
+          "mbti": "INTP",
+          "postId": "9",
+          "id": 11
+        },
+        {
+          "nickname": "종현1",
+          "content": "ㅂㅂ",
+          "mbti": "INTP",
+          "postId": "9",
+          "id": 12
+        }
+      ]
+    },
+    {
+      "createdAt": "2023-07-09T21:36:22.184091",
+      "updatedAt": "2023-07-09T21:36:22.184091",
+      "id": 10,
+      "mbti": "ENFJ",
+      "nickname": "엔프제지롱",
+      "content": "히히",
+      "comments": []
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 15,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content",
+      "comments": []
+    },
+    {
+      "createdAt": "2023-07-09T21:36:22.184091",
+      "updatedAt": "2023-07-09T21:36:22.184091",
+      "id": 16,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content2",
+      "comments": []
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 17,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content",
+      "comments": []
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 19,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content",
+      "comments": []
+    },
+    {
+      "createdAt": "2023-07-09T21:36:22.184091",
+      "updatedAt": "2023-07-09T21:36:22.184091",
+      "id": 20,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "content2",
+      "comments": []
+    },
+    {
+      "createdAt": "2023-07-09T21:35:06.719341",
+      "updatedAt": "2023-07-09T21:35:06.719341",
+      "id": 21,
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "종현이",
+      "comments": []
+    },
+    {
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "asdas",
+      "id": 22
+    }
+  ],
+  "comments": [
+    {
+      "nickname": "종현1",
+      "content": "asd",
+      "mbti": "INTP",
+      "postId": "16",
+      "id": 1
+    },
+    {
+      "nickname": "종현1",
+      "content": "aa",
+      "mbti": "INTP",
+      "postId": "16",
+      "id": 2
+    },
+    {
+      "nickname": "종현1",
+      "content": "adada",
+      "mbti": "INTP",
+      "postId": "16",
+      "id": 3
+    },
+    {
+      "nickname": "종현1",
+      "content": "qwq",
+      "mbti": "INTP",
+      "postId": "16",
+      "id": 4
+    },
+    {
+      "nickname": "종현1",
+      "content": "qq",
+      "mbti": "INTP",
+      "postId": "16",
+      "id": 5
+    },
+    {
+      "nickname": "종현1",
+      "content": "asd",
+      "mbti": "INTP",
+      "postId": "16",
+      "id": 6
+    },
+    {
+      "nickname": "종현1",
+      "content": "aaa",
+      "mbti": "INTP",
+      "postId": "16",
+      "id": 7
+    },
+    {
+      "nickname": "종현1",
+      "content": "qq",
+      "mbti": "INTP",
+      "postId": "2",
+      "id": 8
+    },
+    {
+      "nickname": "종현1",
+      "content": "qq",
+      "mbti": "INTP",
+      "postId": "2",
+      "id": 9
+    },
+    {
+      "nickname": "종현1",
+      "content": "ee",
+      "mbti": "INTP",
+      "postId": "2",
+      "id": 10
+    },
+    {
+      "nickname": "종현1",
+      "content": "ewew",
+      "mbti": "INTP",
+      "postId": "2",
+      "id": 11
+    }
+  ]
+}
