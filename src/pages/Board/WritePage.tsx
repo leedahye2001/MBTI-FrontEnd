@@ -42,41 +42,45 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
       setIsSubmitting(false);
     }
   };
-  
 
   const handlePrevious = () => {
     navigate('/totalboard');
   };
 
   return (
-    <div className="max-w-md mx-auto p-4">
-      <h1 className="text-4xl font-extrabold text-blue-500 mb-8">전체 게시판 글쓰기</h1>
-      <form onSubmit={handleSubmit}>
-        <textarea
-          value={content}
-          onChange={handleContentChange}
-          placeholder="글 내용을 입력해주세요."
-          className="w-full rounded border border-gray-300 p-2 mb-4"
-          rows={6}
-        ></textarea>
-        <div className="flex justify-between">
-          <button
-            type="button"
-            className="bg-gray-300 text-gray-600 px-4 py-2 rounded"
-            onClick={handlePrevious}
-          >
-            이전
-          </button>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? '등록 중...' : '등록 및 이동'}
-          </button>
-        </div>
-      </form>
-    </div>
+<div className="flex items-center justify-center h-screen bg-gray-200">
+  <div className="max-w-md w-4/5 mx-auto p-6 bg-white rounded-lg shadow-md">
+  <div className="flex justify-center">
+    <h1 className="text-3xl font-medium text-gray-900 dark:text-white">Board Writing</h1>
+  </div>
+    <form onSubmit={handleSubmit} className="mt-4">
+      <textarea
+        value={content}
+        onChange={handleContentChange}
+        placeholder="글 내용을 입력해주세요."
+        className="w-full h-40 rounded border border-gray-300 p-2 mb-4 resize-none"
+      ></textarea>
+      <div className="flex justify-between">
+        <button
+          type="button"
+          className="bg-gray-300 text-gray-600 px-4 py-2 rounded"
+          onClick={handlePrevious}
+        >
+          이전
+        </button>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? '등록 중...' : '등록 및 이동'}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
   );
 };
 

@@ -9,7 +9,6 @@ interface Post {
   mbti: string;
 }
 
-
 const BoardModify = () => {
   const { id } = useParams(); // URL 매개변수에서 글 ID 가져오기
   const navigate = useNavigate();
@@ -50,24 +49,39 @@ const BoardModify = () => {
     return <div>Loading...</div>;
   }
 
+  const handlePrevious = () => {
+    navigate('/totalboard');
+  };
+
   return (
-    <div className="flex flex-col items-center mt-10">
-      <h1 className="text-2xl font-bold mb-4">글 수정하기</h1>
-      <form onSubmit={handleFormSubmit} className="w-1/2">
-        <textarea
-          value={content}
-          onChange={handleInputChange}
-          className="w-full h-40 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <div className="flex justify-end mt-4">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow"
-          >
-            수정 완료
-          </button>
+    <div className="flex items-center justify-center h-screen bg-gray-200">
+      <div className="max-w-md w-4/5 mx-auto p-4 bg-white rounded-lg">
+        <div className="flex justify-center">
+          <h1 className="text-3xl font-medium text-gray-900 dark:text-white">Board Modify</h1>
         </div>
-      </form>
+        <form onSubmit={handleFormSubmit} className="mt-4">
+          <textarea
+            value={content}
+            onChange={handleInputChange}
+            className="w-full h-40 rounded border border-gray-300 p-2 mb-4 resize-none"
+          />
+          <div className="flex justify-between">
+            <button
+              type="button"
+              className="bg-gray-300 text-gray-600 px-4 py-2 rounded"
+              onClick={handlePrevious}
+            >
+              이전
+            </button>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded"
+            >
+              수정 완료
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
