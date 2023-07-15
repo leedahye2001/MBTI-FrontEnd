@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { MdComment, MdCreate } from 'react-icons/md';
-import Pagination from '../../component/Pagination';
+import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { MdComment, MdCreate } from "react-icons/md";
+import Pagination from "../../components/Pagination";
 
 interface Post {
   id: number;
@@ -23,7 +23,7 @@ const MBTIBoard: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get<Post[]>('http://localhost:8000/posts');
+      const response = await axios.get<Post[]>("http://localhost:8000/posts");
       setPostList(response.data);
       setFilteredPosts(response.data);
     } catch (error) {
@@ -36,12 +36,12 @@ const MBTIBoard: React.FC = () => {
   }, []);
 
   const applyFilters = useCallback(() => {
-    const updatedFilteredPosts = selectedMbti.length > 0
-      ? postList.filter(post => selectedMbti.includes(post.mbti))
-      : postList;
+    const updatedFilteredPosts =
+      selectedMbti.length > 0
+        ? postList.filter((post) => selectedMbti.includes(post.mbti))
+        : postList;
     setFilteredPosts(updatedFilteredPosts);
   }, [selectedMbti, postList]);
-  
 
   useEffect(() => {
     if (confirmFiltering) {
@@ -49,7 +49,6 @@ const MBTIBoard: React.FC = () => {
       setCurrentPage(1);
     }
   }, [selectedMbti, confirmFiltering, applyFilters]);
-  
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -61,11 +60,11 @@ const MBTIBoard: React.FC = () => {
   };
 
   const handleButtonClick = () => {
-    navigate('/writepage');
+    navigate("/writepage");
   };
 
   const handlePostDelete = async (postId: number) => {
-    const confirmDelete = window.confirm('정말 삭제하시겠습니까?');
+    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
     if (confirmDelete) {
       try {
         await axios.delete(`http://localhost:8000/posts/${postId}`);
@@ -84,20 +83,22 @@ const MBTIBoard: React.FC = () => {
     navigate(`/boardmodify/${postId}`);
   };
 
-  const handleMbtiCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMbtiCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value, checked } = event.target;
-    setSelectedMbti(prevSelectedMbti => {
+    setSelectedMbti((prevSelectedMbti) => {
       if (checked) {
         return [...prevSelectedMbti, value];
       } else {
-        return prevSelectedMbti.filter(mbti => mbti !== value);
+        return prevSelectedMbti.filter((mbti) => mbti !== value);
       }
     });
     setConfirmFiltering(false); // Reset the confirmFiltering state when checkboxes are changed
   };
-  
+
   const handleApplyFilters = () => {
-    const confirmFilter = window.confirm('정말 필터링 하시겠습니까?');
+    const confirmFilter = window.confirm("정말 필터링 하시겠습니까?");
     if (confirmFilter) {
       setConfirmFiltering(true);
     } else {
@@ -114,8 +115,26 @@ const MBTIBoard: React.FC = () => {
       <div className="flex flex-col min-h-screen">
         <div className="flex-grow">
           {/* MBTI Checkboxes */}
-          <div className="flex flex-wrap items-center justify-center mt-10"> {/* Center align the checkboxes */}
-            {['ISTJ', 'ISFJ', 'INFJ', 'INTJ', 'ISTP', 'ISFP', 'INFP', 'INTP', 'ESTP', 'ESFP', 'ENFP', 'ENTP', 'ESTJ', 'ESFJ', 'ENFJ'].map(mbti => (
+          <div className="flex flex-wrap items-center justify-center mt-10">
+            {" "}
+            {/* Center align the checkboxes */}
+            {[
+              "ISTJ",
+              "ISFJ",
+              "INFJ",
+              "INTJ",
+              "ISTP",
+              "ISFP",
+              "INFP",
+              "INTP",
+              "ESTP",
+              "ESFP",
+              "ENFP",
+              "ENTP",
+              "ESTJ",
+              "ESFJ",
+              "ENFJ",
+            ].map((mbti) => (
               <div className="flex items-center mr-4" key={mbti}>
                 <input
                   checked={selectedMbti.includes(mbti)}
@@ -143,8 +162,13 @@ const MBTIBoard: React.FC = () => {
 
           {/* Render Posts */}
           {currentPosts.map((post) => (
-            <div key={post.id} className="border border-gray-300 rounded-lg p-4 m-10 relative">
-              <h2 className="font-bold text-xl mb-2 font-custom">{post.nickname}</h2>
+            <div
+              key={post.id}
+              className="border border-gray-300 rounded-lg p-4 m-10 relative"
+            >
+              <h2 className="font-bold text-xl mb-2 font-custom">
+                {post.nickname}
+              </h2>
               <p className="font-custom">{post.content}</p>
               <div className="flex mt-2">
                 <button
