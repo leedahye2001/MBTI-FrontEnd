@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface NavItem {
   title: string;
@@ -22,7 +22,6 @@ const Navbar: React.FC<NavbarProps> = ({ navItems }) => {
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
-           
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               GDSC MBTI
             </span>
@@ -63,7 +62,10 @@ const Navbar: React.FC<NavbarProps> = ({ navItems }) => {
             )}
           </svg>
         </button>
-        <div className={`w-full ${isOpen ? "block" : "hidden"}`} id="navbar-hamburger">
+        <div
+          className={`w-full ${isOpen ? "block" : "hidden"}`}
+          id="navbar-hamburger"
+        >
           <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
             {navItems.map((item, index) => (
               <li key={index}>
