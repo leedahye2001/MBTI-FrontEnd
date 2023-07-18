@@ -7,6 +7,7 @@ import MBTIBoard from "./pages/Board/MBTIindex";
 import WritePage from "./pages/Board/WritePage";
 import BoardModify from "./pages/Board/BoardModify";
 import MbtiTest from "./pages/Mbti/MbtiTest";
+import GoogleLoginPage from './pages/login/LoginPage';
 
 const App = () => {
   const navItems = [
@@ -27,6 +28,7 @@ const App = () => {
             <Routes>
               <Route index path="/" element={<Index />} />
               <Route path="/test" element={<MbtiTest />} />
+              <Route path="/login" element={<GoogleLoginPage />} />
               <Route path="/totalboard" element={<Board />} />
               <Route path="/totalboarddetail/:id" element={<BoardDetail />} />
               <Route path="/boardmodify/:id" element={<BoardModify />} />
