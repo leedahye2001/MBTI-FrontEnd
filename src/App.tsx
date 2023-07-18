@@ -6,13 +6,14 @@ import BoardDetail from "./pages/Board/BoardDetail";
 import MBTIBoard from "./pages/Board/MBTIindex";
 import WritePage from "./pages/Board/WritePage";
 import BoardModify from "./pages/Board/BoardModify";
+import MbtiTest from "./pages/Mbti/MbtiTest";
 
 const App = () => {
   const navItems = [
     { title: "테스트 하러가기", path: "/test" },
-    { title: "Total Board", path: "/totalboard" },
-    { title: "MBTI Board", path: "/mbtiboard" },
-    { title: "MY page", path: "/mypage" },
+    { title: "전체 게시판", path: "/totalboard" },
+    { title: "MBTI 게시판", path: "/mbtiboard" },
+    { title: "마이페이지", path: "/mypage" },
   ];
 
   return (
@@ -22,9 +23,10 @@ const App = () => {
           <div className="bg-gray-100 shadow-md">
             <Navbar navItems={navItems} />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 flex items-center justify-center h-screen">
             <Routes>
               <Route index path="/" element={<Index />} />
+              <Route path="/test" element={<MbtiTest />} />
               <Route path="/totalboard" element={<Board />} />
               <Route path="/totalboarddetail/:id" element={<BoardDetail />} />
               <Route path="/boardmodify/:id" element={<BoardModify />} />
