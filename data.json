@@ -7,7 +7,7 @@
       "mbti": "ISFP",
       "nickname": "aaaa",
       "content": "content",
-      "comments": [
+      "replies": [
         {
           "id": 1,
           "nickname": "종현1",
@@ -29,7 +29,7 @@
       "mbti": "INTP",
       "nickname": "나는 INTP",
       "content": "귀찮아",
-      "comments": [
+      "replies": [
         {
           "nickname": "종현1",
           "content": "ㄴㄴ",
@@ -53,7 +53,7 @@
       "mbti": "ENFJ",
       "nickname": "엔프제지롱",
       "content": "히히",
-      "comments": []
+      "replies": []
     },
     {
       "createdAt": "2023-07-09T21:35:06.719341",
@@ -62,7 +62,7 @@
       "mbti": "ISFJ",
       "nickname": "aaaa",
       "content": "content",
-      "comments": []
+      "replies": []
     },
     {
       "createdAt": "2023-07-09T21:36:22.184091",
@@ -71,7 +71,7 @@
       "mbti": "ISFJ",
       "nickname": "aaaa",
       "content": "content2",
-      "comments": []
+      "replies": []
     },
     {
       "createdAt": "2023-07-09T21:35:06.719341",
@@ -80,7 +80,7 @@
       "mbti": "ISFJ",
       "nickname": "aaaa",
       "content": "content",
-      "comments": []
+      "replies": []
     },
     {
       "createdAt": "2023-07-09T21:35:06.719341",
@@ -89,7 +89,7 @@
       "mbti": "ISFJ",
       "nickname": "aaaa",
       "content": "content",
-      "comments": []
+      "replies": []
     },
     {
       "createdAt": "2023-07-09T21:36:22.184091",
@@ -98,7 +98,7 @@
       "mbti": "ISFJ",
       "nickname": "aaaa",
       "content": "content2",
-      "comments": []
+      "replies": []
     },
     {
       "createdAt": "2023-07-09T21:35:06.719341",
@@ -107,16 +107,17 @@
       "mbti": "ISFJ",
       "nickname": "aaaa",
       "content": "종현이",
-      "comments": []
+      "replies": []
     },
     {
       "mbti": "ISFJ",
       "nickname": "aaaa",
       "content": "asdas",
-      "id": 22
+      "id": 22,
+      "replies": []
     }
   ],
-  "comments": [
+  "replies": [
     {
       "nickname": "종현1",
       "content": "asd",
@@ -193,6 +194,34 @@
       "mbti": "INTP",
       "postId": "2",
       "id": 11
+    },
+    {
+      "nickname": "종현1",
+      "content": "ㅁㄴㅇㅁ",
+      "mbti": "INTP",
+      "postId": "2",
+      "id": 12
+    },
+    {
+      "nickname": "종현1",
+      "content": "ㅁ",
+      "mbti": "INTP",
+      "postId": "2",
+      "id": 13
+    },
+    {
+      "nickname": "종현1",
+      "content": "sfsdf",
+      "mbti": "INTP",
+      "postId": "2",
+      "id": 14
+    },
+    {
+      "nickname": "종현1",
+      "content": "qweq",
+      "mbti": "INTP",
+      "postId": "2",
+      "id": 15
     }
   ]
 }
