@@ -6,13 +6,14 @@ import BoardDetail from "./pages/Board/BoardDetail";
 import MBTIBoard from "./pages/Board/MBTIindex";
 import WritePage from "./pages/Board/WritePage";
 import BoardModify from "./pages/Board/BoardModify";
+import LoginPage from "./pages/login/LoginPage";
 
 const App = () => {
   const navItems = [
     { title: "Test", path: "/test" },
     { title: "Total Board", path: "/totalboard" },
     { title: "MBTI Board", path: "/mbtiboard" },
-    { title: "MY page", path: "/mypage" },
+    { title: "Login", path: "/login" },
   ];
 
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Routes>
             <Route index path="/" element={<Index />} />
             <Route path="/totalboard" element={<Board />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/totalboarddetail/:id" element={<BoardDetail />} />
             <Route path="/boardmodify/:id" element={<BoardModify />} />
             <Route path="/mbtiboard" element={<MBTIBoard />} />
