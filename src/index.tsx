@@ -1,12 +1,10 @@
-import MainLayout from "./layouts/MainLayout";
+import MbtiTest from "./pages/Mbti/MbtiTest";
 
 const Index = () => {
   return (
-    
-    <MainLayout>
-    
-      <section>section</section>
-    </MainLayout>
+    <section>
+      <MbtiTest />
+    </section>
   );
 };
 
