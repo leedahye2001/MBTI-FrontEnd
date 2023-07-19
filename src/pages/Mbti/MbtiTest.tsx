@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import axios from "axios";
+import MbtiResult from "./MbtiResult";
 
 interface Question {
   no: number;
@@ -8,11 +10,65 @@ interface Question {
   content: string;
 }
 
+const pageContentYes = [
+  "그 사람을 바로 내 친구로 만들어버린다 !",
+  "말을 거는 데 그닥 어려움이 없다. 바로 말 걸기 ~",
+  "내가 어떻게 보이든 말든 신경 안 쓰이는데?",
+  "바로 친구에게 연락하기. 나랑 놀자 ~~",
+  "친구에게 만나자고 연락을 보내본다",
+  "당연하지!",
+  "너무 재밌어..! 바로 유튜브나 구글링으로 찾아본다.",
+  "아악 그때 난 왜 그랬지,,\n문득문득 떠오르고 너무 후회된다.",
+  "바로 대화에 참여해서 신나게 토론한다.",
+  "그렇다",
+  "아무나 빨리 나한테 얘기해줘.\n무슨 얘기인지 너~무 궁금하다.",
+  "흥미진진. 팝콘 가져와🍿 너무 재밌다.",
+  "후~ Calm Down. 평정심을 유지한다.",
+  "그렇다",
+  "친구를 이해하기 위해 많은 시간이 필요하다.",
+  "부랴부랴,, 매번 마감 기한을 지키기가 힘들다.",
+  "마지막까지 미루는 편이다.",
+  "지금 진행 중인 프로젝트를 완전히 완료한 후, \n 다른 프로젝트를 시작한다.",
+  "괜찮아 ~ 나중에 하면 돼 ~\n마지막까지 미루는 편이다.",
+  "나에게 있는 에너지가 충분할 때,\n 일을 몰아서 하는 편이다.",
+];
+
+const pageContentNo = [
+  "굳이 ..? 새로운 친구를 만들지 않는다.",
+  "말을 걸고 있는 나의 모습이 상상조차 되지 않는다.",
+  "나를 어떤 식으로 볼 지 걱정스럽고 머리 아프다.",
+  "어휴, 얼마만에 휴가냐. 바로 침대로 다이빙 ~",
+  "음 .. 근데 그냥 연락 안 할래 ..",
+  "딱히 ..?",
+  "그냥 한 작품을 보고 왔구나 싶다.",
+  "평소에 딱히 후회될 일이 떠오르진 않는다.",
+  "어엄 .. 별로 재미없다.",
+  "그렇지 않다",
+  "그렇구나 .. 할 일 하러 간다.",
+  "빨리 저 상황이 끝났으면 좋겠다..;;",
+  "심장이 쿵쿵. 너무 긴장되어서 심장이 나올 것 같다.",
+  "그렇지 않다",
+  "들어보니 친구의 입장이 이해가 된다.",
+  "이미 다 해뒀거나, 여유있게 다시 확인한다.",
+  "바로바로 결정을 내리는 편이다.",
+  "완전히 완료되지 않았지만 동시에 프로젝트를 진행한다.",
+  "내 사전에 나중이란 없다.\n되도록이면 그때 그때 해결해야 한다.",
+  "계획에 맞게 업무를 진행하는 것을 더 선호한다.",
+];
+
 const MbtiTest: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [mbtiResult, setMbtiResult] = useState<string>("");
+  const [isYesSelected, setIsYesSelected] = useState(false);
+  const [isNoSelected, setIsNoSelected] = useState(false);
+
+  const [showResult, setShowResult] = useState(false);
+
+  useEffect(() => {
+    setAnswers(new Array(questions.length).fill(undefined));
+  }, [questions]);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -21,7 +77,7 @@ const MbtiTest: React.FC = () => {
           "http://gdscmbti.duckdns.org:8080/api/mbti/questions"
         );
         setQuestions(response.data.questions);
-        setAnswers(new Array(response.data.questions.length).fill(false));
+        setAnswers(new Array(response.data.questions.length).fill(undefined));
       } catch (error) {
         console.error("Error fetching questions:", error);
       }
@@ -34,17 +90,23 @@ const MbtiTest: React.FC = () => {
     const updatedAnswers = [...answers];
     updatedAnswers[currentPage] = answer;
     setAnswers(updatedAnswers);
+    setIsYesSelected(answer);
+    setIsNoSelected(!answer);
   };
 
   const handleNext = () => {
     if (currentPage < questions.length - 1) {
       setCurrentPage(currentPage + 1);
+      setIsYesSelected(answers[currentPage + 1] === true);
+      setIsNoSelected(answers[currentPage + 1] === false);
     }
   };
 
   const handlePrevious = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
+      setIsYesSelected(answers[currentPage - 1] === true);
+      setIsNoSelected(answers[currentPage - 1] === false);
     }
   };
 
@@ -57,46 +119,86 @@ const MbtiTest: React.FC = () => {
         }
       );
       setMbtiResult(response.data.mbti);
+      setShowResult(true);
     } catch (error) {
       console.error("Error fetching MBTI result:", error);
     }
   };
 
   return (
-    <>
-      {questions.length > 0 && (
-        <div>
-          <p>{questions[currentPage].content}</p>
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                checked={answers[currentPage] || false}
-                onChange={(e) => handleAnswerChange(e.target.checked)}
-              />
-              Yes
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={!answers[currentPage] || false}
-                onChange={(e) => handleAnswerChange(!e.target.checked)}
-              />
-              No
-            </label>
-          </div>
-          <button onClick={handlePrevious} disabled={currentPage === 0}>
-            이전
-          </button>
-          {currentPage === questions.length - 1 ? (
-            <button onClick={handleSubmit}>결과 확인</button>
-          ) : (
-            <button onClick={handleNext}>다음</button>
+    <div className="flex flex-1 items-center justify-center h-screen bg-primary-200">
+      {!showResult ? (
+        <div className="flex items-center justify-center">
+          {questions.length > 0 && (
+            <div className="flex flex-col items-center justify-center">
+              <h1 className="text-center font-light text-white text-[18px] p-4">
+                {questions[currentPage].content}
+              </h1>
+              <div className="flex gap-2 flex-col my-[100px] text-center mx-2">
+                <label
+                  className={`border-[3px] border-white bg-white px-6 py-3 rounded-md ${
+                    isYesSelected ? "bg-[#f0f0f0] border-[#AA77C9]" : ""
+                  }`}
+                  onClick={() => handleAnswerChange(true)}
+                >
+                  <input
+                    className="hidden cursor-pointer"
+                    type="checkbox"
+                    checked={answers[currentPage] === true}
+                  />
+                  <p className="whitespace-pre-line">
+                    {pageContentYes[currentPage]}
+                  </p>
+                </label>
+                <label
+                  className={`border-[3px] border-white bg-white px-6 py-3 rounded-md ${
+                    isNoSelected ? "bg-[#f0f0f0] border-[#AA77C9]" : ""
+                  }`}
+                  onClick={() => handleAnswerChange(false)}
+                >
+                  <input
+                    className="hidden cursor-pointer"
+                    type="checkbox"
+                    checked={answers[currentPage] === false}
+                  />
+                  <p className="whitespace-pre-line">
+                    {pageContentNo[currentPage]}
+                  </p>
+                </label>
+              </div>
+              <div className="flex gap-20">
+                <button
+                  className="flex items-center bg-[#dadada] px-8 py-2 rounded-full"
+                  onClick={handlePrevious}
+                  disabled={currentPage === 0}
+                >
+                  <AiOutlineArrowLeft class="mr-1" />
+                  이전
+                </button>
+                {currentPage === questions.length - 1 ? (
+                  <button
+                    className="bg-[#dc8d8d] px-8 py-2 rounded-full"
+                    onClick={handleSubmit}
+                  >
+                    결과 확인
+                  </button>
+                ) : (
+                  <button
+                    className="flex items-center bg-[#9ddcac] px-8 py-2 rounded-full"
+                    onClick={handleNext}
+                  >
+                    다음
+                    <AiOutlineArrowRight class="ml-1" />
+                  </button>
+                )}
+              </div>
+            </div>
           )}
         </div>
+      ) : (
+        <MbtiResult mbtiResult={mbtiResult} />
       )}
-      {mbtiResult && <p>MBTI Result: {mbtiResult}</p>}
-    </>
+    </div>
   );
 };
 
