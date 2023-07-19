@@ -135,36 +135,39 @@ const MbtiTest: React.FC = () => {
                 {questions[currentPage].content}
               </h1>
               <div className="flex gap-2 flex-col my-[100px] text-center mx-2">
-                <label
-                  className={`border-[3px] border-white bg-white px-6 py-3 rounded-md ${
-                    isYesSelected ? "bg-[#f0f0f0] border-[#AA77C9]" : ""
-                  }`}
-                  onClick={() => handleAnswerChange(true)}
-                >
-                  <input
-                    className="hidden cursor-pointer"
-                    type="checkbox"
-                    checked={answers[currentPage] === true}
-                  />
-                  <p className="whitespace-pre-line">
-                    {pageContentYes[currentPage]}
-                  </p>
-                </label>
-                <label
-                  className={`border-[3px] border-white bg-white px-6 py-3 rounded-md ${
-                    isNoSelected ? "bg-[#f0f0f0] border-[#AA77C9]" : ""
-                  }`}
-                  onClick={() => handleAnswerChange(false)}
-                >
-                  <input
-                    className="hidden cursor-pointer"
-                    type="checkbox"
-                    checked={answers[currentPage] === false}
-                  />
-                  <p className="whitespace-pre-line">
-                    {pageContentNo[currentPage]}
-                  </p>
-                </label>
+              <label
+  className={`border-[3px] border-white bg-white px-6 py-3 rounded-md cursor-pointer ${
+    isYesSelected ? "bg-gray-300 border-[#AA77C9]" : ""
+  }`}
+  onClick={() => handleAnswerChange(true)}
+>
+  <input
+    className="hidden cursor-pointer"
+    type="checkbox"
+    checked={answers[currentPage] === true}
+  />
+  <p className="whitespace-pre-line">
+    {pageContentYes[currentPage]}
+  </p>
+</label>
+<label
+  className={`border-[3px] border-white bg-white px-6 py-3 rounded-md cursor-pointer ${
+    isNoSelected ? "bg-gray-300 border-[#AA77C9]" : ""
+  }`}
+  onClick={() => handleAnswerChange(false)}
+>
+  <input
+    className="hidden cursor-pointer"
+    type="checkbox"
+    checked={answers[currentPage] === false}
+  />
+  <p className="whitespace-pre-line">
+    {pageContentNo[currentPage]}
+  </p>
+</label>
+
+
+
               </div>
               <div className="flex gap-20">
                 <button
@@ -188,7 +191,7 @@ const MbtiTest: React.FC = () => {
                     onClick={handleNext}
                   >
                     다음
-                    <AiOutlineArrowRight class="ml-1" />
+                    <AiOutlineArrowRight className="ml-1" />
                   </button>
                 )}
               </div>
