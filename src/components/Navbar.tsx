@@ -18,11 +18,11 @@ const Navbar: React.FC<NavbarProps> = ({ navItems }) => {
   };
 
   return (
-    <nav className="border-gray-200 bg-gray-50 sticky top-0 z-10 w-full">
+    <nav className="bg-transparent fixed sticky top-0 z-10 w-full">
       <div className="max-w-screen-4xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div className="flex items-center">
+        <div className="flex items-center ">
           <Link to="/" className="flex items-center">
-            <span className="text-primary-300 self-center text-2xl font-semibold whitespace-nowrap">
+            <span className="text-black self-center text-2xl font-semibold whitespace-nowrap">
               GDSC MBTI
             </span>
           </Link>

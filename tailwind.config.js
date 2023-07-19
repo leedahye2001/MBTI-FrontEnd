@@ -4,15 +4,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        teal: {
-          DEFAULT: '#008080',
-        },
-        indigo: {
-          DEFAULT: '#4B0082',
-        },
-        // Add more custom colors here
+        "primary-400": "#8234E5",
+        "primary-300": "#798CF0",
+        "primary-200": "#929BF0",
+        "primary-100": "#A2BBEB",
         fontFamily: {
-          custom: ['My Font', 'sans-serif'],
+          custom: ["Noto Sans KR", "sans-serif"],
         },
       },
     },
