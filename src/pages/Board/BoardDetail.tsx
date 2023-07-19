@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-interface Comment {
+interface Reply {
   id: number;
   nickname: string;
   content: string;
@@ -15,21 +15,23 @@ interface PostDetail {
   mbti: string;
   nickname: string;
   content: string;
-  comments: Comment[];
+  replies: Reply[];
 }
 
 const BoardDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = useState<PostDetail | null>(null);
-  const [newComment, setNewComment] = useState<string>('');
-  const [commentList, setCommentList] = useState<Comment[]>([]);
+  const [newReply, setNewReply] = useState<string>("");
+  const [replyList, setReplyList] = useState<Reply[]>([]);
   const navigate = useNavigate();
 
   const fetchPostDetail = useCallback(async () => {
     try {
-      const response = await axios.get<PostDetail>(`http://localhost:8000/posts/${id}`);
+      const response = await axios.get<PostDetail>(
+        `http://localhost:8000/posts/${id}`
+      );
       setPost(response.data);
-      setCommentList(response.data.comments);
+      setReplyList(response.data.replies);
     } catch (error) {
       console.log(error);
     }
@@ -39,38 +41,42 @@ const BoardDetail: React.FC = () => {
     fetchPostDetail();
   }, [fetchPostDetail]);
 
-  const handleCommentSubmit = async (e: React.FormEvent) => {
+  const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (newComment.trim() === '') {
+    if (newReply.trim() === "") {
       return;
     }
 
     try {
-      const response = await axios.post<Comment>(
-        `http://localhost:8000/posts/${id}/comments`,
+      const response = await axios.post<Reply>(
+        `http://localhost:8000/posts/${id}/replies`,
         {
-          nickname: '종현1',
-          content: newComment,
-          mbti: 'INTP',
+          nickname: "종현1",
+          content: newReply,
+          mbti: "INTP",
           postId: id,
         }
       );
 
-      setNewComment('');
-      const newCommentData = response.data;
-      const updatedCommentList = [...commentList, newCommentData];
-      setCommentList(updatedCommentList);
+      setNewReply("");
+      const newReplyData = response.data;
+      const updatedReplyList = [...replyList, newReplyData];
+      setReplyList(updatedReplyList);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleCommentDelete = async (commentId: number) => {
+  const handleReplyDelete = async (replyId: number) => {
     try {
-      await axios.delete(`http://localhost:8000/posts/${id}/comments/${commentId}`);
-      const updatedCommentList = commentList.filter((comment) => comment.id !== commentId);
-      setCommentList(updatedCommentList);
+      await axios.delete(
+        `http://localhost:8000/posts/${id}/replies/${replyId}`
+      );
+      const updatedReplyList = replyList.filter(
+        (reply) => reply.id !== replyId
+      );
+      setReplyList(updatedReplyList);
     } catch (error) {
       console.log(error);
     }
@@ -79,7 +85,7 @@ const BoardDetail: React.FC = () => {
   const handlePostDelete = async () => {
     try {
       await axios.delete(`http://localhost:8000/posts/${id}`);
-      navigate('/'); // Navigate to the board list after deleting the post
+      navigate("/"); // 게시물 삭제 후 게시판 목록으로 이동
     } catch (error) {
       console.log(error);
     }
@@ -97,27 +103,30 @@ const BoardDetail: React.FC = () => {
       </div>
       <div className="bg-white shadow p-4">
         <h3 className="text-lg font-bold mb-2">댓글</h3>
-        {commentList.map((comment) => (
-          <div className="flex items-center" key={comment.id}>
-            <h4 className="font-bold flex-shrink-0">{comment.nickname}</h4>
-            <p className="text-sm flex-grow">{comment.content}</p>
+        {replyList.map((reply) => (
+          <div className="flex items-center" key={reply.id}>
+            <h4 className="font-bold flex-shrink-0">{reply.nickname}</h4>
+            <p className="text-sm flex-grow">{reply.content}</p>
             <button
-              onClick={() => handleCommentDelete(comment.id)}
+              onClick={() => handleReplyDelete(reply.id)}
               className="text-red-500 hover:text-red-700"
             >
               삭제
             </button>
           </div>
         ))}
-        <form onSubmit={handleCommentSubmit} className="mt-4">
+        <form onSubmit={handleReplySubmit} className="mt-4">
           <input
             type="text"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
+            value={newReply}
+            onChange={(e) => setNewReply(e.target.value)}
             placeholder="댓글을 입력하세요."
             className="border border-gray-300 rounded p-2 mr-2"
           />
-          <button type="submit" className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+          <button
+            type="submit"
+            className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          >
             댓글 작성
           </button>
         </form>

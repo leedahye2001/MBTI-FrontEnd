@@ -78,7 +78,7 @@ const Board: React.FC = () => {
           {currentPosts.map((post) => (
             <div
               key={post.id}
-              className="border border-gray-300 rounded-lg p-4 m-10 relative"
+              className="border border-gray-300 rounded-lg p-4 m-10 relative w-[calc(100% - 16rem)]"
             >
               <h2 className="font-bold text-xl mb-2 font-custom">
                 {post.nickname}
