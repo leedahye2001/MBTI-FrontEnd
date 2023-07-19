@@ -95,6 +95,12 @@ const MbtiTest: React.FC = () => {
   };
 
   const handleNext = () => {
+    // 현재 페이지의 답변이 없는 경우, 알림 띄우기
+    if (answers[currentPage] === undefined) {
+      alert("선택지를 골라야 다음으로 넘어갈 수 있습니다 !");
+      return;
+    }
+
     if (currentPage < questions.length - 1) {
       setCurrentPage(currentPage + 1);
       setIsYesSelected(answers[currentPage + 1] === true);
@@ -111,6 +117,11 @@ const MbtiTest: React.FC = () => {
   };
 
   const handleSubmit = async () => {
+    // 결과 누르기 전에 하나라도 페이지의 답변이 없는 경우, 알림 띄우기
+    if (answers[currentPage] === undefined) {
+      alert("모든 질문에 답변해주세요!");
+      return;
+    }
     try {
       const response = await axios.post(
         "http://gdscmbti.duckdns.org:8080/api/mbti/result",
@@ -136,13 +147,20 @@ const MbtiTest: React.FC = () => {
               </h1>
               <div className="flex gap-2 flex-col my-[100px] text-center mx-2">
                 <label
-                  className={`border-[3px] border-white bg-white px-6 py-3 rounded-md ${
+                  htmlFor="yes-checkbox"
+                  className={`cursor-pointer border-[3px] border-white bg-white px-6 py-3 rounded-md ${
                     isYesSelected ? "bg-[#f0f0f0] border-[#AA77C9]" : ""
                   }`}
                   onClick={() => handleAnswerChange(true)}
+                  style={
+                    isYesSelected
+                      ? { backgroundColor: "#f0f0f0", borderColor: "#AA77C9" }
+                      : {}
+                  }
                 >
                   <input
-                    className="hidden cursor-pointer"
+                    id="yes-checkbox"
+                    className="hidden"
                     type="checkbox"
                     checked={answers[currentPage] === true}
                   />
@@ -151,13 +169,20 @@ const MbtiTest: React.FC = () => {
                   </p>
                 </label>
                 <label
-                  className={`border-[3px] border-white bg-white px-6 py-3 rounded-md ${
+                  htmlFor="no-checkbox"
+                  className={`cursor-pointer border-[3px] border-white bg-white px-6 py-3 rounded-md ${
                     isNoSelected ? "bg-[#f0f0f0] border-[#AA77C9]" : ""
                   }`}
                   onClick={() => handleAnswerChange(false)}
+                  style={
+                    isNoSelected
+                      ? { backgroundColor: "#f0f0f0", borderColor: "#AA77C9" }
+                      : {}
+                  }
                 >
                   <input
-                    className="hidden cursor-pointer"
+                    id="no-checkbox"
+                    className="hidden"
                     type="checkbox"
                     checked={answers[currentPage] === false}
                   />
