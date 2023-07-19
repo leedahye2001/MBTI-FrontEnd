@@ -115,6 +115,13 @@
       "content": "asdas",
       "id": 22,
       "replies": []
+    },
+    {
+      "mbti": "ISFJ",
+      "nickname": "aaaa",
+      "content": "배종현",
+      "id": 23,
+      "replies": []
     }
   ],
   "replies": [
@@ -222,6 +229,27 @@
       "mbti": "INTP",
       "postId": "2",
       "id": 15
+    },
+    {
+      "nickname": "종현1",
+      "content": "45",
+      "mbti": "INTP",
+      "postId": "9",
+      "id": 16
+    },
+    {
+      "nickname": "종현1",
+      "content": "qqqq",
+      "mbti": "INTP",
+      "postId": "9",
+      "id": 17
+    },
+    {
+      "nickname": "종현1",
+      "content": "ww",
+      "mbti": "INTP",
+      "postId": "9",
+      "id": 18
     }
   ]
 }

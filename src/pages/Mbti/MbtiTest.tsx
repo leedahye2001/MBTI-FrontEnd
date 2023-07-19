@@ -146,41 +146,6 @@ const MbtiTest: React.FC = () => {
                 {questions[currentPage].content}
               </h1>
               <div className="flex gap-2 flex-col my-[100px] text-center mx-2">
-<<<<<<< HEAD
-              <label
-  className={`border-[3px] border-white bg-white px-6 py-3 rounded-md cursor-pointer ${
-    isYesSelected ? "bg-gray-300 border-[#AA77C9]" : ""
-  }`}
-  onClick={() => handleAnswerChange(true)}
->
-  <input
-    className="hidden cursor-pointer"
-    type="checkbox"
-    checked={answers[currentPage] === true}
-  />
-  <p className="whitespace-pre-line">
-    {pageContentYes[currentPage]}
-  </p>
-</label>
-<label
-  className={`border-[3px] border-white bg-white px-6 py-3 rounded-md cursor-pointer ${
-    isNoSelected ? "bg-gray-300 border-[#AA77C9]" : ""
-  }`}
-  onClick={() => handleAnswerChange(false)}
->
-  <input
-    className="hidden cursor-pointer"
-    type="checkbox"
-    checked={answers[currentPage] === false}
-  />
-  <p className="whitespace-pre-line">
-    {pageContentNo[currentPage]}
-  </p>
-</label>
-
-
-
-=======
                 <label
                   htmlFor="yes-checkbox"
                   className={`cursor-pointer border-[3px] border-white bg-white px-6 py-3 rounded-md ${
@@ -225,7 +190,6 @@ const MbtiTest: React.FC = () => {
                     {pageContentNo[currentPage]}
                   </p>
                 </label>
->>>>>>> e75cef082cfb3c7d6bc47d75cf9b585af06788d3
               </div>
               <div className="flex gap-20">
                 <button

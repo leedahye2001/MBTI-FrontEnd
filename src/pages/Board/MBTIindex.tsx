@@ -23,14 +23,14 @@ const MBTIBoard: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get<Post[]>("http://localhost:8000/posts");
+      const response = await axios.get<Post[]>("http://gdscmbti.duckdns.org:8080/api/board");
       setPostList(response.data);
       setFilteredPosts(response.data);
     } catch (error) {
       console.log(error);
     }
   };
-
+  
   useEffect(() => {
     fetchData();
   }, []);
@@ -63,11 +63,11 @@ const MBTIBoard: React.FC = () => {
     navigate("/writepage");
   };
 
-  const handlePostDelete = async (postId: number) => {
+  const handlePostDelete = async (id: number) => {
     const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:8000/posts/${postId}`);
+        await axios.delete(`http://gdscmbti.duckdns.org:8080/api/board/${id}`);
         fetchData(); // Refetch the data after deleting the post
       } catch (error) {
         console.log(error);

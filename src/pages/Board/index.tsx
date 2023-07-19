@@ -20,7 +20,7 @@ const Board: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get<Post[]>("http://localhost:8000/posts");
+      const response = await axios.get<Post[]>("http://gdscmbti.duckdns.org:8080/api/board");
       setPostList(response.data);
     } catch (error) {
       console.log(error);
@@ -52,7 +52,7 @@ const Board: React.FC = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:8000/posts/${postId}`);
+      await axios.delete(`http://gdscmbti.duckdns.org:8080/api/board/${postId}`);
       fetchData(); // Refetch the data after deleting the post
     } catch (error) {
       console.log(error);

@@ -28,10 +28,12 @@ const BoardDetail: React.FC = () => {
   const fetchPostDetail = useCallback(async () => {
     try {
       const response = await axios.get<PostDetail>(
-        `http://localhost:8000/posts/${id}`
+        `http://gdscmbti.duckdns.org:8080/api/board/${id}`
       );
       setPost(response.data);
-      setReplyList(response.data.replies);
+      if (response.data.replies) {
+        setReplyList(response.data.replies);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -43,14 +45,14 @@ const BoardDetail: React.FC = () => {
 
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (newReply.trim() === "") {
       return;
     }
-
+  
     try {
       const response = await axios.post<Reply>(
-        `http://localhost:8000/posts/${id}/replies`,
+        `http://gdscmbti.duckdns.org:8080/api/board/${id}/reply`,
         {
           nickname: "종현1",
           content: newReply,
@@ -58,20 +60,20 @@ const BoardDetail: React.FC = () => {
           postId: id,
         }
       );
-
+  
       setNewReply("");
       const newReplyData = response.data;
-      const updatedReplyList = [...replyList, newReplyData];
-      setReplyList(updatedReplyList);
+      setReplyList((prevReplyList) => [...prevReplyList, newReplyData]);
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   const handleReplyDelete = async (replyId: number) => {
     try {
       await axios.delete(
-        `http://localhost:8000/posts/${id}/replies/${replyId}`
+        `http://gdscmbti.duckdns.org:8080/api/board/${id}/reply/${replyId}`
       );
       const updatedReplyList = replyList.filter(
         (reply) => reply.id !== replyId
@@ -81,10 +83,11 @@ const BoardDetail: React.FC = () => {
       console.log(error);
     }
   };
+  
 
   const handlePostDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8000/posts/${id}`);
+      await axios.delete(`http://gdscmbti.duckdns.org:8080/api/board/${id}`);
       navigate("/"); // 게시물 삭제 후 게시판 목록으로 이동
     } catch (error) {
       console.log(error);
@@ -103,19 +106,21 @@ const BoardDetail: React.FC = () => {
       </div>
       <div className="bg-white shadow p-4">
         <h3 className="text-lg font-bold mb-2">댓글</h3>
-        {replyList.map((reply) => (
-          <div className="flex items-center" key={reply.id}>
-            <h4 className="font-bold flex-shrink-0">{reply.nickname}</h4>
-            <p className="text-sm flex-grow">{reply.content}</p>
-            <button
-              onClick={() => handleReplyDelete(reply.id)}
-              className="text-red-500 hover:text-red-700"
-            >
-              삭제
-            </button>
-          </div>
-        ))}
-        <form onSubmit={handleReplySubmit} className="mt-4">
+{replyList.map((reply, index) => (
+  <div className="flex items-center" key={`reply-${index}`}>
+    <h4 className="font-bold flex-shrink-0">{reply.nickname}</h4>
+    <p className="text-sm flex-grow">{reply.content}</p>
+    <button
+      onClick={() => handleReplyDelete(reply.id)}
+      className="text-red-500 hover:text-red-700"
+    >
+      삭제
+    </button>
+  </div>
+))}
+
+
+<form onSubmit={handleReplySubmit} className="mt-4" key="reply-form">
           <input
             type="text"
             value={newReply}
