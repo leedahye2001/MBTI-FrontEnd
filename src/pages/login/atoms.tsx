@@ -1,7 +1,7 @@
-import { atom } from 'recoil';
+import { atom } from "recoil";
 
 // Recoil의 atom 상태 정의
 export const isLoggedInState = atom<boolean>({
-  key: 'isLoggedInState',
+  key: "isLoggedInState",
   default: false,
 });
