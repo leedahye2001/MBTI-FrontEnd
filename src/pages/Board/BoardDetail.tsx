@@ -43,6 +43,23 @@ const BoardDetail: React.FC = () => {
     fetchPostDetail();
   }, [fetchPostDetail]);
 
+  const fetchReplies = useCallback(async () => {
+    try {
+      const response = await axios.get<Reply[]>(
+        `http://gdscmbti.duckdns.org:8080/api/board/${id}/replies`
+      );
+      setReplyList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    fetchPostDetail();
+    fetchReplies(); // Fetch replies after fetching the post details
+  }, [fetchPostDetail, fetchReplies]);
+
+
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   
