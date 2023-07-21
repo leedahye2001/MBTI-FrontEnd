@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import Index from "./index";
 import Navbar from "./components/Navbar";
 import Board from "./pages/Board/index";
@@ -8,6 +9,8 @@ import WritePage from "./pages/Board/WritePage";
 import BoardModify from "./pages/Board/BoardModify";
 import MbtiTest from "./pages/Mbti/MbtiTest";
 import GoogleLoginPage from "./pages/login/LoginPage";
+import { isAuthenticatedAtom } from "./pages/login/atoms";
+import MyPage from "./pages/Mypage/MyPage";
 
 const App = () => {
   const navItems = [
@@ -16,6 +19,8 @@ const App = () => {
     { title: "✨ MBTI 게시판 ✨", path: "/mbtiboard" },
     { title: "마이페이지", path: "/mypage" },
   ];
+
+  const isAuthenticated = useRecoilValue(isAuthenticatedAtom);
 
   return (
     <BrowserRouter>
@@ -30,6 +35,7 @@ const App = () => {
             <Route path="/totalboarddetail/:id" element={<BoardDetail />} />
             <Route path="/boardmodify/:id" element={<BoardModify />} />
             <Route path="/mbtiboard" element={<MBTIBoard />} />
+            {isAuthenticated && <Route path="/mypage" element={<MyPage />} />}
             <Route
               path="/writepage"
               element={
