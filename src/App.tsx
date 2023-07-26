@@ -11,6 +11,7 @@ import MbtiTest from "./pages/Mbti/MbtiTest";
 import GoogleLoginPage from "./pages/login/LoginPage";
 import { isAuthenticatedAtom } from "./pages/login/atoms";
 import MyPage from "./pages/Mypage/MyPage";
+import Footer from "./components/Footer";
 
 const App = () => {
   const navItems = [
@@ -48,6 +49,7 @@ const App = () => {
             />
           </Routes>
         </div>
+        <Footer />
       </div>
     </BrowserRouter>
   );

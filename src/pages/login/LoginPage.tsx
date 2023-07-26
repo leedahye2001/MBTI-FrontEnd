@@ -79,7 +79,7 @@ const LoginPage: React.FC = () => {
   const sendTokenToServer = async (idToken: string) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/login/oauth2/code/google",
+        "http://localhost:8080/v1/oauth/login",
         { idToken }
       );
       console.log("User info from server:", response.data);
