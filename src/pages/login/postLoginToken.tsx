@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 export const postLoginToken = async (idToken: string): Promise<boolean> => {
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = 'http://localhost:8080';
   const path = '/v1/oauth/login';
 
   try {
