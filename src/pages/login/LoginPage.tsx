@@ -196,7 +196,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onLogout }) => {
   const sendTokenToServer = async (idToken: string) => {
     try {
       const response = await axios.post(
-        "http://gdscmbti.duckdns.org:8080/v1/oauth/login",
+        'http://gdscmbti.duckdns.org:8080/v1/oauth/login',
         { idToken }
       );
       console.log("서버에서 넘겨 받은 유저 정보:", response.data);

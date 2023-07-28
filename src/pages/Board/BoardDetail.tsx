@@ -46,7 +46,7 @@ const BoardDetail: React.FC = () => {
   const fetchReplies = useCallback(async () => {
     try {
       const response = await axios.get<Reply[]>(
-        `http://gdscmbti.duckdns.org:8080/api/board/${id}/replies`
+        `http://gdscmbti.duckdns.org:8080/api/board/${id}/reply`
       );
       setReplyList(response.data);
     } catch (error) {
