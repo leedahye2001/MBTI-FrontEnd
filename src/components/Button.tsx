@@ -1,15 +1,15 @@
 interface ButtonProps {
   onClick: () => void;
   children: React.ReactNode;
-  logoSrc: string;
-  logoSize?: string;
+  // logoSrc: string;
+  // logoSize?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
   onClick,
   children,
-  logoSrc,
-  logoSize = "w-8 m-2",
+  // logoSrc,
+  // logoSize = "w-8 m-2",
 }) => {
   return (
     <button
@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
     >
       <div className="rounded-md flex h-full w-full items-center justify-center bg-[#FAFAFA] back">
-        <img src={logoSrc} className={`${logoSize}`} />
+        {/* <img src={logoSrc} className={`${logoSize}`} /> */}
         <h1 className="font-bold text-black text-[15px] mx-4 my-1">
           {children}
         </h1>
