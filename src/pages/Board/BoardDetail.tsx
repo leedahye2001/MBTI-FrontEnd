@@ -46,7 +46,7 @@ const BoardDetail: React.FC = () => {
   const fetchReplies = useCallback(async () => {
     try {
       const response = await axios.get<Reply[]>(
-        `http://gdscmbti.duckdns.org:8080/api/board/${id}/replies`
+        `http://gdscmbti.duckdns.org:8080/api/board/${id}/reply`
       );
       setReplyList(response.data);
     } catch (error) {
@@ -68,7 +68,7 @@ const BoardDetail: React.FC = () => {
     }
   
     try {
-      const response = await axios.post<Reply>(
+       await axios.post<Reply>(
         `http://gdscmbti.duckdns.org:8080/api/board/${id}/reply`,
         {
           nickname: "종현1",
@@ -79,8 +79,7 @@ const BoardDetail: React.FC = () => {
       );
   
       setNewReply("");
-      const newReplyData = response.data;
-      setReplyList((prevReplyList) => [...prevReplyList, newReplyData]);
+      fetchReplies();
     } catch (error) {
       console.log(error);
     }
