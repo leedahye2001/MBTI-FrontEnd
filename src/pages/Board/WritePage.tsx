@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,6 +10,13 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
   const [content, setContent] = useState('');
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isMountedRef = React.useRef(true);
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const handleContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
@@ -32,11 +39,17 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
         content: content,
       };
       await axios.post('http://gdscmbti.duckdns.org:8080/api/board/write', newPost);
-      onPostSubmit(content); // Add the content to the board
-      setContent('');
-      // Move the navigate logic here after the axios request
-      navigate('/totalboard');
-    } catch (error) {
+      
+      if (isMountedRef.current) {
+        onPostSubmit(content); // Add the content to the board
+        setContent('');
+        // Move the navigate logic here after the axios request
+        navigate('/totalboard');
+      }
+      
+    } 
+    
+    catch (error) {
       console.log(error);
     } finally {
       setIsSubmitting(false);
