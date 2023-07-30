@@ -1,49 +1,87 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userNameSelector } from "../pages/login/atoms";
-
-export interface NavItem {
-  title: string;
-  path: string;
-  onClick?: (isLoggedOut: boolean) => void;
-}
+import { AiFillHome } from "react-icons/ai";
 
 interface NavbarProps {
-  navItems: NavItem[];
   isAuthenticated: boolean; // isAuthenticated prop 추가
-  onLogout: () => void; // onLogout prop 추가
   onNavbarLogout: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({
-  navItems,
-  isAuthenticated,
-  onLogout,
-  onNavbarLogout,
-}) => {
+const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onNavbarLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const userName = useRecoilValue(userNameSelector); // userNameSelector를 통해 사용자 이름 가져오기
+
+  // 클릭 이벤트를 처리할 Ref 객체 생성
+  const navbarRef = useRef<HTMLDivElement>(null);
+
+  // useEffect를 사용하여 컴포넌트가 마운트되거나 업데이트될 때마다 이벤트 리스너를 추가
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      // Navbar 외부를 클릭한 경우에만 토글 숨김
+      if (
+        navbarRef.current &&
+        !navbarRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    // document에 클릭 이벤트 리스너 추가
+    document.addEventListener("click", handleOutsideClick);
+
+    // 컴포넌트 언마운트 시 이벤트 리스너를 제거하는 clean-up 함수 반환
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
-  const handleLogoutNav = () => {
-    onLogout();
-    onNavbarLogout();
+  // 로그아웃 버튼을 클릭했을 때 호출되는 함수
+  const handleLogout = () => {
+    onNavbarLogout(); // 부모 컴포넌트로부터 전달된 로그아웃 콜백 호출
+  };
+  const handleNavItemClick = () => {
+    setIsOpen(false); // 항목을 클릭했을 때 토글을 감춥니다.
   };
 
+  const navItems = isAuthenticated
+    ? [
+        { title: "테스트 하러가기 🚀", path: "/test" },
+        { title: "✨ 전체 게시판 ✨", path: "/totalboard" },
+        { title: "✨ MBTI 게시판 ✨", path: "/mbtiboard" },
+        { title: "마이페이지", path: "/mypage" },
+        {
+          title: (
+            <div className="flex justify-center items-center text-center gap-2">
+              <AiFillHome size="16" />
+              로그아웃 (홈으로 이동)
+            </div>
+          ),
+          onClick: onNavbarLogout,
+          path: "/",
+        },
+      ]
+    : [
+        { title: "테스트 하러가기 🚀", path: "/test" },
+        { title: "✨ 전체 게시판 ✨", path: "/totalboard" },
+        { title: "✨ MBTI 게시판 ✨", path: "/mbtiboard" },
+        { title: "로그인", path: "/" },
+      ];
+
   return (
-    <nav className="bg-white fixed sticky top-0 z-10 w-full">
+    <nav ref={navbarRef} className="bg-white fixed sticky top-0 z-10 w-full">
       <div className="max-w-screen-4xl flex flex-wrap items-center justify-between mx-auto p-4">
         <div className="flex items-center ">
           <Link to="/" className="flex items-center">
             <span className="text-black self-center text-2xl font-semibold whitespace-nowrap">
-              GDTI  
+              GDTI
             </span>
             <span className="text-black self-center text-2xl font-semibold whitespace-nowrap">
-              {userName} 
+              {userName}
             </span>
           </Link>
         </div>
@@ -78,33 +116,16 @@ const Navbar: React.FC<NavbarProps> = ({
           }`}
           id="navbar-hamburger"
         >
-          <ul className="flex flex-col font-light mt-4 text-[18px] text-center">
+          <ul className="flex flex-col font-light mt-4 text-[15px] text-center">
             {navItems.map((item, index) => (
               <li key={index}>
-                {item.title === "로그아웃" ? (
-                  isAuthenticated ? (
-                    <button
-                      className="w-full py-2 pl-3 pr-4 rounded text-gray-700 hover:bg-gradient-to-r hover:bg-opacity-20 hover:from-primary-300 hover:via-primary-200 hover:to-primary-100 hover:text-white"
-                      onClick={handleLogoutNav}
-                    >
-                      {item.title}
-                    </button>
-                  ) : (
-                    <Link
-                      to={item.path}
-                      className="block py-2 pl-3 pr-4 rounded text-gray-700 hover:bg-gradient-to-r hover:bg-opacity-20 hover:from-primary-300 hover:via-primary-200 hover:to-primary-100 hover:text-white"
-                    >
-                      {item.title}
-                    </Link>
-                  )
-                ) : (
-                  <Link
-                    to={item.path}
-                    className="block py-2 pl-3 pr-4 rounded text-gray-700 hover:bg-gradient-to-r hover:bg-opacity-20 hover:from-primary-300 hover:via-primary-200 hover:to-primary-100 hover:text-white"
-                  >
-                    {item.title}
-                  </Link>
-                )}
+                <Link
+                  to={item.path}
+                  className="block py-2 pl-3 pr-4 rounded text-gray-700 hover:bg-gradient-to-r hover:bg-opacity-20 hover:from-primary-300 hover:via-primary-200 hover:to-primary-100 hover:text-white"
+                  onClick={handleNavItemClick}
+                >
+                  {item.title}
+                </Link>
               </li>
             ))}
           </ul>
