@@ -18,7 +18,7 @@ const Button: React.FC<ButtonProps> = ({
     >
       <div className="rounded-md flex h-full w-full items-center justify-center bg-[#FAFAFA] back">
         {/* <img src={logoSrc} className={`${logoSize}`} /> */}
-        <h1 className="font-bold text-black text-[15px] mx-4 my-1">
+        <h1 className="font-bold text-black text-[14px] mx-4 my-1">
           {children}
         </h1>
       </div>

@@ -1,10 +1,96 @@
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LoginPage from "./pages/login/LoginPage";
-import { useState } from "react";
-import { googleLogout } from "@react-oauth/google";
 import { useRecoilState } from "recoil";
-import { userAtom } from "./pages/login/atoms";
+import { userAtom, isAuthenticatedAtom } from "./pages/login/atoms";
 import Button from "./components/Button";
+import {
+  GoogleOAuthProvider,
+  googleLogout,
+  CredentialResponse,
+  GoogleLogin,
+} from "@react-oauth/google";
+import axios from "axios";
+import { FiLogOut } from "react-icons/fi";
+
+interface LoginPageProps {
+  onLogin: () => void;
+  onLogout: (isLoggedOut: boolean) => void;
+  onNavbarLogout: () => void;
+}
+
+const LoginPage: React.FC<LoginPageProps> = ({
+  onLogin,
+  onLogout,
+  onNavbarLogout,
+}) => {
+  const [isAuthenticated, setIsAuthenticated] =
+    useRecoilState(isAuthenticatedAtom);
+  const [user, setUser] = useRecoilState(userAtom);
+  const navigate = useNavigate();
+
+  const sendTokenToServer = async (idToken: string) => {
+    try {
+      const response = await axios.post(
+        "https://gdscmbti.duckdns.org/v1/oauth/login",
+        { idToken },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error("토큰 조회 실패:", error);
+    }
+  };
+
+  const handleNavigation = () => {
+    navigate("/test");
+  };
+
+  const handleLogout = () => {
+    alert("로그아웃 하시겠습니까?");
+    googleLogout();
+    setIsAuthenticated(false); // 사용자 인증 상태를 false로 변경하여 로그아웃 처리
+    setUser({ name: "", email: "" }); // 사용자 정보 초기화
+    onLogout(false); // 로그아웃 처리를 App.tsx로 전달
+    onNavbarLogout();
+  };
+
+  return (
+    <GoogleOAuthProvider clientId="30471056996-73pcva8f87e441abujp8bevhc9r7th71.apps.googleusercontent.com">
+      {isAuthenticated ? (
+        <div className="items-center text-center flex flex-col gap-4">
+          <Button onClick={handleNavigation}>테스트 하러 가기 🚀</Button>
+          <div className="flex gap-2 rounded-full bg-[#e8e8e8] px-3 py-2">
+            <FiLogOut size="18" />
+            <h1
+              className="text-[12px] text-[#333] hover:cursor-pointer hover:underline"
+              onClick={handleLogout}
+            >
+              로그아웃
+            </h1>
+          </div>
+        </div>
+      ) : (
+        <GoogleLogin
+          onSuccess={(credentialResponse: CredentialResponse) => {
+            const idToken = credentialResponse.credential;
+            if (idToken) {
+              sendTokenToServer(idToken);
+              onLogin(); // 로그인 성공 시 호출되는 콜백 함수를 호출
+            } else {
+              console.error("Invalid credential response:", credentialResponse);
+            }
+          }}
+        />
+      )}
+    </GoogleOAuthProvider>
+  );
+};
 
 interface IndexProps {
   isAuthenticated: boolean;
@@ -19,28 +105,12 @@ const Index: React.FC<IndexProps> = ({
 }) => {
   const [indexIsAuthenticated, setIndexIsAuthenticated] =
     useState(isAuthenticated);
-
   const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(userAtom);
 
   const handleNavigation = () => {
     navigate("/test");
   };
-
-  const [user, setUser] = useRecoilState(userAtom);
-
-  // const handleLogout = () => {
-  //   alert("로그아웃 하시겠습니까?");
-  //   googleLogout();
-  //   setUser({ name: "", email: "" });
-  //   onLogout();
-  //   setIndexIsAuthenticated(false);
-  //   navigate("/");
-  // };
-
-  // const handleLogin = () => {
-  //   onLogin();
-  //   setIndexIsAuthenticated(true);
-  // };
 
   const handleLogin = () => {
     onLogin();
@@ -49,6 +119,10 @@ const Index: React.FC<IndexProps> = ({
   const handleLogout = () => {
     onLogout();
   };
+
+  useEffect(() => {
+    setIndexIsAuthenticated(isAuthenticated);
+  }, [isAuthenticated]);
 
   return (
     <section
@@ -63,16 +137,11 @@ const Index: React.FC<IndexProps> = ({
           <h1 className="font-bold text-[23px] mb-2">
             {indexIsAuthenticated ? "사용해 보세요 !" : "로그인을 해주세요 !"}
           </h1>
-          {indexIsAuthenticated ? (
-            <div className="flex flex-col text-center items-center py-2 gap-2">
-              <Button onClick={handleNavigation}>테스트 하러 가기 🚀</Button>
-              <h1 className="text-[#333]" onClick={handleLogout}>
-                로그아웃
-              </h1>
-            </div>
-          ) : (
-            <LoginPage onLogin={handleLogin} onLogout={handleLogout} />
-          )}
+          <LoginPage
+            onLogin={handleLogin}
+            onLogout={handleLogout}
+            onNavbarLogout={handleLogout}
+          />
         </div>
       </div>
     </section>
