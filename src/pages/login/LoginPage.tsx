@@ -197,11 +197,28 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onLogout }) => {
     try {
       const response = await axios.post(
         'http://gdscmbti.duckdns.org:8080/v1/oauth/login',
-        { idToken }
+        { idToken },
+        { withCredentials: true }
       );
-      console.log("서버에서 넘겨 받은 유저 정보:", response.data);
+
+      //start
+      // const authTokenCookie = document.cookie.split("; ").find((row) => row.startsWith("AUTH-TOKEN="));
+
+      // if (authTokenCookie) {
+      //   const authToken = authTokenCookie.split("=")[1];
+      //   console.log("AUTH-TOKEN:", authToken);
+      // } else {
+      //   console.log("AUTH-TOKEN not found.");
+      // }
+      //end
+    
+      const authToken = response.data.authToken;
+      document.cookie = `AUTH-TOKEN=${authToken}; path=/`;
+
       setIsAuthenticated(true);
-      setUser(response.data); // 서버로부터 받은 사용자 정보를 Recoil atom에 저장
+      // localStorage.setItem(
+      //         "AUTH-TOKEN", response.data.authToken
+      //       );
     } catch (error) {
       console.error("토큰 조회 실패:", error);
     }
@@ -217,6 +234,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onLogout }) => {
     setIsAuthenticated(false); // 사용자 인증 상태를 false로 변경하여 로그아웃 처리
     setUser({ name: "", email: "" }); // 사용자 정보 초기화
     onLogout(false); // 로그아웃 처리를 App.tsx로 전달
+  
+    localStorage.removeItem("user");
+
+  // 쿠키도 제거 (optional: 쿠키를 사용하고 있다면)
+  document.cookie = "AUTH-TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  
   };
 
   useEffect(() => {

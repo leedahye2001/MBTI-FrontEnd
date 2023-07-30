@@ -40,7 +40,10 @@ const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center ">
           <Link to="/" className="flex items-center">
             <span className="text-black self-center text-2xl font-semibold whitespace-nowrap">
-              GDSC MBTI
+              GDTI  
+            </span>
+            <span className="text-black self-center text-2xl font-semibold whitespace-nowrap">
+              {userName} 
             </span>
           </Link>
         </div>

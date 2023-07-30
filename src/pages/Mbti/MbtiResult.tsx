@@ -19,7 +19,7 @@
 // export default MbtiResult;
 
 import React from "react";
-import ENTPImage from "../../assets/MbtiResult/ENTP - Apple - 결과.png";
+import ENTPImage from "../../assets/MbtiResult/ENTP - Apple - 결과.png";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 
