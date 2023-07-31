@@ -7,7 +7,7 @@ export const isAuthenticatedAtom = atom<boolean>({
 
 export const userAtom = atom({
   key: "userAtom",
-  default: { name: "", email: "" },
+  default: { name: "", email: "", profile: "" },
 });
 
 export const userNameSelector = selector({
@@ -23,5 +23,13 @@ export const userEmailSelector = selector({
   get: ({ get }) => {
     const user = get(userAtom);
     return user.email;
+  },
+});
+
+export const userProfileSelector = selector({
+  key: "userProfileSelector",
+  get: ({ get }) => {
+    const user = get(userAtom);
+    return user.profile;
   },
 });
