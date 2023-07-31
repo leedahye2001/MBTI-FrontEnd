@@ -11,6 +11,7 @@ import { useState } from "react";
 import MyPage from "./pages/Mypage/MyPage";
 import Navbar from "./components/Navbar";
 
+
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -47,6 +48,7 @@ const App = () => {
             <Route path="/totalboarddetail/:id" element={<BoardDetail />} />
             <Route path="/boardmodify/:id" element={<BoardModify />} />
             <Route path="/mbtiboard" element={<MBTIBoard />} />
+            
             {isAuthenticated && <Route path="/mypage" element={<MyPage />} />}
             <Route
               path="/writepage"
