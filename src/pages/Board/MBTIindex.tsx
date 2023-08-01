@@ -23,7 +23,7 @@ const MBTIBoard: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get<Post[]>("http://gdscmbti.duckdns.org:8080/api/board");
+      const response = await axios.get<Post[]>("https://gdscmbti.duckdns.org/api/board");
       setPostList(response.data);
       setFilteredPosts(response.data);
     } catch (error) {
@@ -67,7 +67,7 @@ const MBTIBoard: React.FC = () => {
     const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
     if (confirmDelete) {
       try {
-        await axios.delete(`http://gdscmbti.duckdns.org:8080/api/board/${id}`);
+        await axios.delete(`https://gdscmbti.duckdns.org/api/board/${id}`);
         fetchData(); // Refetch the data after deleting the post
       } catch (error) {
         console.log(error);

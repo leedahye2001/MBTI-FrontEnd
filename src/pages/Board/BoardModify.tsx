@@ -19,7 +19,7 @@ const BoardModify = () => {
     // 글 ID를 기반으로 서버에서 글 내용 가져오기
     const fetchPost = async () => {
       try {
-        const response = await axios.get<Post>(`http://gdscmbti.duckdns.org:8080/api/board/${id}`);
+        const response = await axios.get<Post>(`https://gdscmbti.ducknds.org/api/board/${id}`);
         setPost(response.data);
         setContent(response.data.content);
       } catch (error) {
@@ -38,7 +38,7 @@ const BoardModify = () => {
     e.preventDefault();
 
     try {
-      await axios.put(`http://gdscmbti.duckdns.org:8080/api/board/${id}`, { ...post, content }); // 글 수정 요청
+      await axios.put(`https://gdscmbti.ducknds.org/api/board/${id}`, { ...post, content }); // 글 수정 요청
       navigate('/totalboard'); // 수정 완료 후 게시판 페이지로 이동
     } catch (error) {
       console.log(error);
