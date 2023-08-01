@@ -163,6 +163,7 @@ const MbtiTest: React.FC = () => {
                     className="hidden"
                     type="checkbox"
                     checked={answers[currentPage] === true}
+                    onChange={() => handleAnswerChange(true)}
                   />
                   <p className="whitespace-pre-line">
                     {pageContentYes[currentPage]}
@@ -185,6 +186,7 @@ const MbtiTest: React.FC = () => {
                     className="hidden"
                     type="checkbox"
                     checked={answers[currentPage] === false}
+                    onChange={() => handleAnswerChange(false)}
                   />
                   <p className="whitespace-pre-line">
                     {pageContentNo[currentPage]}
@@ -197,7 +199,7 @@ const MbtiTest: React.FC = () => {
                   onClick={handlePrevious}
                   disabled={currentPage === 0}
                 >
-                  <AiOutlineArrowLeft class="mr-1" />
+                  <AiOutlineArrowLeft className="mr-1" />
                   이전
                 </button>
                 {currentPage === questions.length - 1 ? (

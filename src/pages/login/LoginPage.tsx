@@ -218,7 +218,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onLogout }) => {
     alert("로그아웃 하시겠습니까?");
     googleLogout();
     setIsAuthenticated(false); // 사용자 인증 상태를 false로 변경하여 로그아웃 처리
-    setUser({ name: "", email: "" }); // 사용자 정보 초기화
+    setUser({ name: "", email: "", profile: ""}); // 사용자 정보 초기화
     onLogout(false); // 로그아웃 처리를 App.tsx로 전달
   
   
