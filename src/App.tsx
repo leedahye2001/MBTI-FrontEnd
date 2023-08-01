@@ -7,10 +7,9 @@ import WritePage from "./pages/Board/WritePage";
 import BoardModify from "./pages/Board/BoardModify";
 import MbtiTest from "./pages/Mbti/MbtiTest";
 import Footer from "./components/Footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyPage from "./pages/Mypage/MyPage";
 import Navbar from "./components/Navbar";
-
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -31,36 +30,53 @@ const App = () => {
             isAuthenticated={isAuthenticated}
             onNavbarLogout={handleLogout}
           />
-          <Routes>
-            <Route
-              index
-              path="/"
-              element={
-                <Index
-                  isAuthenticated={isAuthenticated}
-                  onLogin={handleLogin}
-                  onLogout={handleLogout}
+          <div>
+            {isAuthenticated ? (
+              <Routes>
+                <Route
+                  index
+                  path="/"
+                  element={
+                    <Index
+                      isAuthenticated={isAuthenticated}
+                      onLogin={handleLogin}
+                      onLogout={handleLogout}
+                    />
+                  }
                 />
-              }
-            />
-            <Route path="/test" element={<MbtiTest />} />
-            <Route path="/totalboard" element={<Board />} />
-            <Route path="/totalboarddetail/:id" element={<BoardDetail />} />
-            <Route path="/boardmodify/:id" element={<BoardModify />} />
-            <Route path="/mbtiboard" element={<MBTIBoard />} />
-            
-            {isAuthenticated && <Route path="/mypage" element={<MyPage />} />}
-            <Route
-              path="/writepage"
-              element={
-                <WritePage
-                  onPostSubmit={() => {
-                    /* 적절한 내용을 추가하거나 필요 없는 경우 함수 자체를 제거할 수 있습니다. */
-                  }}
+                <Route path="/test" element={<MbtiTest />} />
+                <Route path="/totalboard" element={<Board />} />
+                <Route path="/totalboarddetail/:id" element={<BoardDetail />} />
+                <Route path="/boardmodify/:id" element={<BoardModify />} />
+                <Route path="/mbtiboard" element={<MBTIBoard />} />
+                <Route path="/mypage" element={<MyPage />} />
+                <Route
+                  path="/writepage"
+                  element={
+                    <WritePage
+                      onPostSubmit={() => {
+                        /* 적절한 내용을 추가하거나 필요 없는 경우 함수 자체를 제거할 수 있습니다. */
+                      }}
+                    />
+                  }
                 />
-              }
-            />
-          </Routes>
+              </Routes>
+            ) : (
+              <Routes>
+                <Route
+                  index
+                  path="/"
+                  element={
+                    <Index
+                      isAuthenticated={isAuthenticated}
+                      onLogin={handleLogin}
+                      onLogout={handleLogout}
+                    />
+                  }
+                />
+              </Routes>
+            )}
+          </div>
         </div>
         <Footer />
       </div>
