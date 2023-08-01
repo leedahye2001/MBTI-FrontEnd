@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
+import GDTILogo from "../assets/logo/GDTILogo.png";
+import GLogo from "../assets/logo/GLogo.png";
 
 interface NavbarProps {
   isAuthenticated: boolean; // isAuthenticated prop 추가
@@ -70,9 +72,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onNavbarLogout }) => {
       <div className="max-w-screen-4xl flex flex-wrap items-center justify-between mx-auto p-4">
         <div className="flex items-center ">
           <Link to="/" className="flex items-center">
-            <span className="text-black self-center text-2xl font-semibold whitespace-nowrap">
-              GDTI
-            </span>
+            <img className="w-[150px]" src={GDTILogo} alt="GDTI logo" />
           </Link>
         </div>
         <button
