@@ -2,9 +2,7 @@ import React from "react";
 import ENTPImage from "../../assets/MbtiResult/ENTP - Apple - 결과.png";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
-import { googleLogout } from "@react-oauth/google";
 import { AiFillHome } from "react-icons/ai";
-import { BiRotateLeft } from "react-icons/bi";
 
 interface MbtiResultProps {
   mbtiResult: string;
@@ -24,12 +22,9 @@ const MbtiResult: React.FC<MbtiResultProps> = ({ mbtiResult }) => {
         return null;
     }
   };
+
   const navigate = useNavigate();
   const imagePath = getImagePath(mbtiResult);
-
-  const handleNavigation = () => {
-    navigate("/");
-  };
 
   return (
     <div className="flex flex-1 items-center justify-center min-h-screen bg-white">

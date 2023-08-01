@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userNameSelector } from "../pages/login/atoms";
 import { AiFillHome } from "react-icons/ai";
 
 interface NavbarProps {
@@ -11,8 +9,6 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onNavbarLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const userName = useRecoilValue(userNameSelector); // userNameSelector를 통해 사용자 이름 가져오기
-
   // 클릭 이벤트를 처리할 Ref 객체 생성
   const navbarRef = useRef<HTMLDivElement>(null);
 
@@ -40,10 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onNavbarLogout }) => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-  // 로그아웃 버튼을 클릭했을 때 호출되는 함수
-  const handleLogout = () => {
-    onNavbarLogout(); // 부모 컴포넌트로부터 전달된 로그아웃 콜백 호출
-  };
+
   const handleNavItemClick = () => {
     setIsOpen(false); // 항목을 클릭했을 때 토글을 감춥니다.
   };
@@ -79,9 +72,6 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onNavbarLogout }) => {
           <Link to="/" className="flex items-center">
             <span className="text-black self-center text-2xl font-semibold whitespace-nowrap">
               GDTI
-            </span>
-            <span className="text-black self-center text-2xl font-semibold whitespace-nowrap">
-              {userName}
             </span>
           </Link>
         </div>

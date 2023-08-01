@@ -7,7 +7,7 @@ import WritePage from "./pages/Board/WritePage";
 import BoardModify from "./pages/Board/BoardModify";
 import MbtiTest from "./pages/Mbti/MbtiTest";
 import Footer from "./components/Footer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MyPage from "./pages/Mypage/MyPage";
 import Navbar from "./components/Navbar";
 
