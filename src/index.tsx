@@ -11,6 +11,7 @@ import {
 } from "@react-oauth/google";
 import axios from "axios";
 import { FiLogOut } from "react-icons/fi";
+import GLogo from "./assets/logo/GLogo.png";
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -128,10 +129,11 @@ const Index: React.FC<IndexProps> = ({
     >
       <div className="flex items-center justify-center">
         <div className="flex flex-col items-center justify-center">
-          <p className="font-bold text-[23px]">
+          <img className="w-[50px]" src={GLogo} alt="GDTI small logo" />
+          <p className="font-bold text-[20px] mt-4">
             {indexIsAuthenticated ? "GDTI를 " : "GDTI 이용을 위해 "}
           </p>
-          <h1 className="font-bold text-[23px] mb-2">
+          <h1 className="font-bold text-[20px] mb-2">
             {indexIsAuthenticated ? "사용해 보세요 !" : "로그인을 해주세요 !"}
           </h1>
           <LoginPage
