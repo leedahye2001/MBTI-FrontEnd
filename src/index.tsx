@@ -30,7 +30,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
 
   const sendTokenToServer = async (idToken: string) => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://gdscmbti.duckdns.org/v1/oauth/login",
         { idToken },
         {
@@ -64,6 +64,9 @@ const LoginPage: React.FC<LoginPageProps> = ({
     <GoogleOAuthProvider clientId="30471056996-73pcva8f87e441abujp8bevhc9r7th71.apps.googleusercontent.com">
       {isAuthenticated ? (
         <div className="items-center text-center flex flex-col gap-4">
+          {user.name && (
+            <p className="font-normal text-[14px]">{user.name} 님 :)</p>
+          )}
           <Button onClick={handleNavigation}>테스트 하러 가기 🚀</Button>
           <div className="flex gap-2 rounded-full bg-[#e8e8e8] px-3 py-2">
             <FiLogOut size="18" />
@@ -105,12 +108,6 @@ const Index: React.FC<IndexProps> = ({
 }) => {
   const [indexIsAuthenticated, setIndexIsAuthenticated] =
     useState(isAuthenticated);
-  const navigate = useNavigate();
-  const [user, setUser] = useRecoilState(userAtom);
-
-  const handleNavigation = () => {
-    navigate("/test");
-  };
 
   const handleLogin = () => {
     onLogin();
