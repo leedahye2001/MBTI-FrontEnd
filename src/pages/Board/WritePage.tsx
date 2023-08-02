@@ -38,7 +38,7 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
         nickname: 'aaaa',
         content: content,
       };
-      await axios.post('http://gdscmbti.duckdns.org:8080/api/board/write', newPost);
+      await axios.post('https://gdscmbti.duckdns.org/api/board/write', newPost);
       
       if (isMountedRef.current) {
         onPostSubmit(content); // Add the content to the board

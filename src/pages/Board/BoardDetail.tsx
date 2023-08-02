@@ -28,7 +28,7 @@ const BoardDetail: React.FC = () => {
   const fetchPostDetail = useCallback(async () => {
     try {
       const response = await axios.get<PostDetail>(
-        `http://gdscmbti.duckdns.org:8080/api/board/${id}`
+        `https://gdscmbti.duckdns.org/api/board/${id}`
       );
       setPost(response.data);
       if (response.data.replies) {
@@ -46,7 +46,7 @@ const BoardDetail: React.FC = () => {
   const fetchReplies = useCallback(async () => {
     try {
       const response = await axios.get<Reply[]>(
-        `http://gdscmbti.duckdns.org:8080/api/board/${id}/reply`
+        `https://gdscmbti.duckdns.org/api/board/${id}/reply`
       );
       setReplyList(response.data);
     } catch (error) {
@@ -69,7 +69,7 @@ const BoardDetail: React.FC = () => {
   
     try {
        await axios.post<Reply>(
-        `http://gdscmbti.duckdns.org:8080/api/board/${id}/reply`,
+        `https://gdscmbti.duckdns.org/api/board/${id}/reply`,
         {
           nickname: "종현1",
           content: newReply,
@@ -89,7 +89,7 @@ const BoardDetail: React.FC = () => {
   const handleReplyDelete = async (replyId: number) => {
     try {
       await axios.delete(
-        `http://gdscmbti.duckdns.org:8080/api/board/${id}/reply/${replyId}`
+        `https://gdscmbti.duckdns.org/api/board/${id}/reply/${replyId}`
       );
       const updatedReplyList = replyList.filter(
         (reply) => reply.id !== replyId
@@ -103,7 +103,7 @@ const BoardDetail: React.FC = () => {
 
   const handlePostDelete = async () => {
     try {
-      await axios.delete(`http://gdscmbti.duckdns.org:8080/api/board/${id}`);
+      await axios.delete(`https://gdscmbti.duckdns.org/api/board/${id}`);
       navigate("/"); // 게시물 삭제 후 게시판 목록으로 이동
     } catch (error) {
       console.log(error);
