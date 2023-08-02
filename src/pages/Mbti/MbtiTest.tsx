@@ -137,95 +137,97 @@ const MbtiTest: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-1 items-center justify-center h-screen bg-primary-200">
+    <>
       {!showResult ? (
-        <div className="flex items-center justify-center">
-          {questions.length > 0 && (
-            <div className="flex flex-col items-center justify-center">
-              <h1 className="text-center font-light text-white text-[18px] p-4">
-                {questions[currentPage].content}
-              </h1>
-              <div className="flex gap-2 flex-col my-[100px] text-center mx-2">
-                <label
-                  htmlFor="yes-checkbox"
-                  className={`cursor-pointer border-[3px] border-white bg-white px-6 py-3 rounded-md ${
-                    isYesSelected ? "bg-[#f0f0f0] border-[#AA77C9]" : ""
-                  }`}
-                  onClick={() => handleAnswerChange(true)}
-                  style={
-                    isYesSelected
-                      ? { backgroundColor: "#f0f0f0", borderColor: "#AA77C9" }
-                      : {}
-                  }
-                >
-                  <input
-                    id="yes-checkbox"
-                    className="hidden"
-                    type="checkbox"
-                    checked={answers[currentPage] === true}
-                    onChange={() => handleAnswerChange(true)}
-                  />
-                  <p className="whitespace-pre-line">
-                    {pageContentYes[currentPage]}
-                  </p>
-                </label>
-                <label
-                  htmlFor="no-checkbox"
-                  className={`cursor-pointer border-[3px] border-white bg-white px-6 py-3 rounded-md ${
-                    isNoSelected ? "bg-[#f0f0f0] border-[#AA77C9]" : ""
-                  }`}
-                  onClick={() => handleAnswerChange(false)}
-                  style={
-                    isNoSelected
-                      ? { backgroundColor: "#f0f0f0", borderColor: "#AA77C9" }
-                      : {}
-                  }
-                >
-                  <input
-                    id="no-checkbox"
-                    className="hidden"
-                    type="checkbox"
-                    checked={answers[currentPage] === false}
-                    onChange={() => handleAnswerChange(false)}
-                  />
-                  <p className="whitespace-pre-line">
-                    {pageContentNo[currentPage]}
-                  </p>
-                </label>
-              </div>
-              <div className="flex gap-20">
-                <button
-                  className="flex items-center bg-[#dadada] px-8 py-2 rounded-full"
-                  onClick={handlePrevious}
-                  disabled={currentPage === 0}
-                >
-                  <AiOutlineArrowLeft className="mr-1" />
-                  이전
-                </button>
-                {currentPage === questions.length - 1 ? (
-                  <button
-                    className="bg-[#dc8d8d] px-8 py-2 rounded-full"
-                    onClick={handleSubmit}
+        <div className="flex flex-1 items-center justify-center h-screen bg-primary-200">
+          <div className="flex items-center justify-center">
+            {questions.length > 0 && (
+              <div className="flex flex-col items-center justify-center">
+                <h1 className="text-center font-light text-white text-[18px] p-4">
+                  {questions[currentPage].content}
+                </h1>
+                <div className="flex gap-2 flex-col my-[100px] text-center mx-2">
+                  <label
+                    htmlFor="yes-checkbox"
+                    className={`cursor-pointer border-[3px] border-white bg-white px-6 py-3 rounded-md ${
+                      isYesSelected ? "bg-[#f0f0f0] border-[#AA77C9]" : ""
+                    }`}
+                    onClick={() => handleAnswerChange(true)}
+                    style={
+                      isYesSelected
+                        ? { backgroundColor: "#f0f0f0", borderColor: "#AA77C9" }
+                        : {}
+                    }
                   >
-                    결과 확인
-                  </button>
-                ) : (
-                  <button
-                    className="flex items-center bg-[#9ddcac] px-8 py-2 rounded-full"
-                    onClick={handleNext}
+                    <input
+                      id="yes-checkbox"
+                      className="hidden"
+                      type="checkbox"
+                      checked={answers[currentPage] === true}
+                      onChange={() => handleAnswerChange(true)}
+                    />
+                    <p className="whitespace-pre-line">
+                      {pageContentYes[currentPage]}
+                    </p>
+                  </label>
+                  <label
+                    htmlFor="no-checkbox"
+                    className={`cursor-pointer border-[3px] border-white bg-white px-6 py-3 rounded-md ${
+                      isNoSelected ? "bg-[#f0f0f0] border-[#AA77C9]" : ""
+                    }`}
+                    onClick={() => handleAnswerChange(false)}
+                    style={
+                      isNoSelected
+                        ? { backgroundColor: "#f0f0f0", borderColor: "#AA77C9" }
+                        : {}
+                    }
                   >
-                    다음
-                    <AiOutlineArrowRight className="ml-1" />
+                    <input
+                      id="no-checkbox"
+                      className="hidden"
+                      type="checkbox"
+                      checked={answers[currentPage] === false}
+                      onChange={() => handleAnswerChange(false)}
+                    />
+                    <p className="whitespace-pre-line">
+                      {pageContentNo[currentPage]}
+                    </p>
+                  </label>
+                </div>
+                <div className="flex gap-20">
+                  <button
+                    className="flex items-center bg-[#dadada] px-8 py-2 rounded-full"
+                    onClick={handlePrevious}
+                    disabled={currentPage === 0}
+                  >
+                    <AiOutlineArrowLeft className="mr-1" />
+                    이전
                   </button>
-                )}
+                  {currentPage === questions.length - 1 ? (
+                    <button
+                      className="bg-[#dc8d8d] px-8 py-2 rounded-full"
+                      onClick={handleSubmit}
+                    >
+                      결과 확인
+                    </button>
+                  ) : (
+                    <button
+                      className="flex items-center bg-[#9ddcac] px-8 py-2 rounded-full"
+                      onClick={handleNext}
+                    >
+                      다음
+                      <AiOutlineArrowRight className="ml-1" />
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       ) : (
         <MbtiResult mbtiResult={mbtiResult} />
       )}
-    </div>
+    </>
   );
 };
 

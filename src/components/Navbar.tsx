@@ -70,9 +70,9 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onNavbarLogout }) => {
   return (
     <nav ref={navbarRef} className="bg-white fixed sticky top-0 z-10 w-full">
       <div className="max-w-screen-4xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div className="flex items-center ">
+        <div className="flex items-center">
           <Link to="/" className="flex items-center">
-            <img className="w-[150px]" src={GDTILogo} alt="GDTI logo" />
+            <img className="w-[130px]" src={GDTILogo} alt="GDTI logo" />
           </Link>
         </div>
         <button
