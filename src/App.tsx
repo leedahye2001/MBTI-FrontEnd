@@ -63,6 +63,8 @@ const App = () => {
               </Routes>
             ) : (
               <Routes>
+                {" "}
+                <Route path="/test" element={<MbtiTest />} />
                 <Route
                   index
                   path="/"
@@ -77,8 +79,8 @@ const App = () => {
               </Routes>
             )}
           </div>
+          <Footer />
         </div>
-        <Footer />
       </div>
     </BrowserRouter>
   );

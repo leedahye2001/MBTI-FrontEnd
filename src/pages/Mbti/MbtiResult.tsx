@@ -27,11 +27,11 @@ const MbtiResult: React.FC<MbtiResultProps> = ({ mbtiResult }) => {
   const imagePath = getImagePath(mbtiResult);
 
   return (
-    <div className="flex flex-1 items-center justify-center min-h-screen bg-white">
+    <div className="bg-white">
       <div className="flex flex-col items-center justify-center">
         {imagePath && (
           <img
-            className="h-screen"
+            className="h-[100vh]"
             src={imagePath}
             alt={`MBTI Result - ${mbtiResult}`}
           />
