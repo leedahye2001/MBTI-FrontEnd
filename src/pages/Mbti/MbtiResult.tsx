@@ -6,9 +6,16 @@ import { AiFillHome } from "react-icons/ai";
 
 interface MbtiResultProps {
   mbtiResult: string;
+  showResult: boolean;
+  setShowResult: React.Dispatch<React.SetStateAction<boolean>>;
+  onRestartTest: () => void;
 }
 
-const MbtiResult: React.FC<MbtiResultProps> = ({ mbtiResult }) => {
+const MbtiResult: React.FC<MbtiResultProps> = ({
+  mbtiResult,
+  setShowResult,
+  onRestartTest,
+}) => {
   const getImagePath = (result: string) => {
     switch (result.toLowerCase()) {
       case "entp":
@@ -39,7 +46,8 @@ const MbtiResult: React.FC<MbtiResultProps> = ({ mbtiResult }) => {
         <div className="flex flex-col gap-2 my-10">
           <Button
             onClick={() => {
-              navigate("/test");
+              onRestartTest();
+              setShowResult(false);
             }}
           >
             다시 테스트 하러 가기 ⏎
