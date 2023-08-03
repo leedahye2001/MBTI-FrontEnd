@@ -63,7 +63,6 @@ const MbtiTest: React.FC = () => {
   const [mbtiResult, setMbtiResult] = useState<string>("");
   const [isYesSelected, setIsYesSelected] = useState(false);
   const [isNoSelected, setIsNoSelected] = useState(false);
-
   const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
@@ -134,6 +133,15 @@ const MbtiTest: React.FC = () => {
     } catch (error) {
       console.error("Error fetching MBTI result:", error);
     }
+  };
+
+  const handleRestartTest = () => {
+    setCurrentPage(0);
+    setAnswers(new Array(questions.length).fill(undefined));
+    setMbtiResult("");
+    setShowResult(false);
+    setIsYesSelected(false);
+    setIsNoSelected(false);
   };
 
   return (
@@ -225,7 +233,12 @@ const MbtiTest: React.FC = () => {
           </div>
         </div>
       ) : (
-        <MbtiResult mbtiResult={mbtiResult} />
+        <MbtiResult
+          mbtiResult={mbtiResult}
+          showResult={showResult}
+          setShowResult={setShowResult}
+          onRestartTest={handleRestartTest}
+        />
       )}
     </>
   );
