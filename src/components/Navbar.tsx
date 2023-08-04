@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import GDTILogo from "../assets/logo/GDTILogo.png";
-import GLogo from "../assets/logo/GLogo.png";
 
 interface NavbarProps {
   isAuthenticated: boolean; // isAuthenticated prop 추가
