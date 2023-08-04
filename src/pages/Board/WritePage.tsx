@@ -99,7 +99,7 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
     <div className="flex items-center justify-center h-screen bg-gray-200">
       <div className="max-w-md w-4/5 mx-auto p-6 bg-white rounded-lg shadow-md">
         <div className="flex justify-center">
-          <h1 className="text-3xl font-medium text-gray-900 dark:text-white">Board Writing</h1>
+          <h1 className="text-3xl font-medium text-gray-900 dark:text-white">👇 아무거나 적어봐!</h1>
         </div>
         <form onSubmit={handleSubmit} className="mt-4">
         {userName && ( // Check if the userName exists before rendering
@@ -108,23 +108,23 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
           <textarea
             value={content}
             onChange={handleContentChange}
-            placeholder="글 내용을 입력해주세요."
+            placeholder="여기다 낙서해!"
             className="w-full h-40 rounded border border-gray-300 p-2 mb-4 resize-none"
           ></textarea>
           <div className="flex justify-between">
             <button
               type="button"
-              className="bg-gray-300 text-gray-600 px-4 py-2 rounded"
+              className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
               onClick={handlePrevious}
             >
-              이전
+              게시판으로
             </button>
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className="text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900"
               disabled={isSubmitting}
             >
-              {isSubmitting ? '등록 중...' : '등록 및 이동'}
+              {isSubmitting ? '등록 중...' : '낙서하기'}
             </button>
           </div>
         </form>

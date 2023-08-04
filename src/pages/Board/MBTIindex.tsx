@@ -100,7 +100,7 @@ const MBTIBoard: React.FC = () => {
   };
 
   const handlePostDelete = async (id: number) => {
-    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+    const confirmDelete = window.confirm("정말 삭제할거야?");
     if (confirmDelete) {
       try {
         await axios.delete(`https://gdscmbti.duckdns.org/api/board/${id}`);
@@ -134,7 +134,7 @@ const MBTIBoard: React.FC = () => {
   };
 
   const handleApplyFilters = () => {
-    const confirmFilter = window.confirm("정말 필터링 하시겠습니까?");
+    const confirmFilter = window.confirm("정말 적용할거야?");
     if (confirmFilter) {
       setConfirmFiltering(true);
     } else {
@@ -211,7 +211,7 @@ const MBTIBoard: React.FC = () => {
               ))}
               <div className="col-span-4 flex justify-center mt-4">
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow ml-4 bg-gradient-to-r from-blue-500 to-blue-700" // Apply gradient background
+                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                   onClick={handleApplyFilters}
                 >
                   적용
@@ -265,12 +265,26 @@ const MBTIBoard: React.FC = () => {
           </div>
 
   
-          <div className="flex m-4">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-2 px-4 rounded shadow ml-auto"
+          <div className="flex justify-end m-4">
+              <button
+              className="bg-gradient-to-r from-orange-500 to-blue-700 text-white font-bold py-2 px-4 rounded shadow inline-flex items-center justify-center space-x-2 mb-2 mr-2 text-sm font-medium text-gray-900 rounded-lg group group-hover:from-teal-300 group-hover:to-lime-300 focus:ring-4 focus:outline-none focus:ring-lime-200"
               onClick={handleButtonClick}
             >
-              글 작성
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+              <span>낙서하기</span>
             </button>
           </div>
         </div>
