@@ -16,6 +16,7 @@ const MyPage = () => {
   const userProfile = useRecoilValue(userProfileSelector);
   const setUser = useSetRecoilState(userAtom);
   const navigate = useNavigate();
+  
 
   // 로그인한 사용자의 정보를 가져오는 함수
   const fetchUserInfo = async () => {

@@ -45,7 +45,6 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onNavbarLogout }) => {
   const navItems = isAuthenticated
     ? [
         { title: "테스트 하러가기 🚀", path: "/test" },
-        { title: "✨ 전체 게시판 ✨", path: "/totalboard" },
         { title: "✨ MBTI 게시판 ✨", path: "/mbtiboard" },
         { title: "마이페이지", path: "/mypage" },
         {
@@ -61,7 +60,6 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onNavbarLogout }) => {
       ]
     : [
         { title: "테스트 하러가기 🚀", path: "/test" },
-        { title: "✨ 전체 게시판 ✨", path: "/totalboard" },
         { title: "✨ MBTI 게시판 ✨", path: "/mbtiboard" },
         { title: "로그인", path: "/" },
       ];

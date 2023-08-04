@@ -110,57 +110,80 @@ const MBTIBoard: React.FC = () => {
   const indexOfFirstPost = indexOfLastPost - itemsPerPage;
   const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
 
+  const handleSelectAll = () => {
+    if (selectedMbti.length === 15) {
+      // If all MBTI is already selected, clear the selection
+      setSelectedMbti([]);
+    } else {
+      // If not all MBTI is selected, select all
+      setSelectedMbti([
+        "ISTJ", "ISFJ", "INFJ", "INTJ",
+        "ISTP", "ISFP", "INFP", "INTP",
+        "ESTP", "ESFP", "ENFP", "ENTP",
+        "ESTJ", "ESFJ", "ENFJ"
+      ]);
+    }
+    setConfirmFiltering(false); // Reset the confirmFiltering state when the "전체" checkbox is clicked
+  };
+
+
   return (
     <>
       <div className="flex flex-col min-h-screen">
         <div className="flex-grow">
           {/* MBTI Checkboxes */}
           <div className="flex flex-wrap items-center justify-center mt-10">
-            {" "}
-            {/* Center align the checkboxes */}
-            {[
-              "ISTJ",
-              "ISFJ",
-              "INFJ",
-              "INTJ",
-              "ISTP",
-              "ISFP",
-              "INFP",
-              "INTP",
-              "ESTP",
-              "ESFP",
-              "ENFP",
-              "ENTP",
-              "ESTJ",
-              "ESFJ",
-              "ENFJ",
-            ].map((mbti) => (
-              <div className="flex items-center mr-4" key={mbti}>
+            <div className="grid grid-cols-4 gap-4">
+              <div className="flex items-center">
                 <input
-                  checked={selectedMbti.includes(mbti)}
-                  id={`${mbti.toLowerCase()}-checkbox`}
+                  checked={selectedMbti.length === 15}
+                  id="all-checkbox"
                   type="checkbox"
-                  value={mbti}
-                  className={`w-4 h-4 text-${mbti.toLowerCase()}-600 bg-gray-100 border-gray-300 rounded focus:ring-${mbti.toLowerCase()}-500 dark:focus:ring-${mbti.toLowerCase()}-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
-                  onChange={handleMbtiCheckboxChange}
+                  value="전체"
+                  className={`w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
+                  onChange={handleSelectAll}
                 />
                 <label
-                  htmlFor={`${mbti.toLowerCase()}-checkbox`}
+                  htmlFor="all-checkbox"
                   className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                 >
-                  {mbti}
+                  전체
                 </label>
               </div>
-            ))}
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow ml-4 bg-gradient-to-r from-blue-500 to-blue-700" // Apply gradient background
-              onClick={handleApplyFilters}
-            >
-              적용
-            </button>
+              {[
+                "ISTJ", "ISFJ", "INFJ", 
+                "INTJ","ISTP", "ISFP", "INFP",
+                 "INTP","ESTP", "ESFP", "ENFP", 
+                "ENTP","ESTJ", "ESFJ", "ENFJ"
+              ].map((mbti) => (
+                <div className="flex items-center" key={mbti}>
+                  <input
+                    checked={selectedMbti.includes(mbti)}
+                    id={`${mbti.toLowerCase()}-checkbox`}
+                    type="checkbox"
+                    value={mbti}
+                    className={`w-4 h-4 text-${mbti.toLowerCase()}-600 bg-gray-100 border-gray-300 rounded focus:ring-${mbti.toLowerCase()}-500 dark:focus:ring-${mbti.toLowerCase()}-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
+                    onChange={handleMbtiCheckboxChange}
+                  />
+                  <label
+                    htmlFor={`${mbti.toLowerCase()}-checkbox`}
+                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    {mbti}
+                  </label>
+                </div>
+              ))}
+              <div className="col-span-4 flex justify-center mt-4">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow ml-4 bg-gradient-to-r from-blue-500 to-blue-700" // Apply gradient background
+                  onClick={handleApplyFilters}
+                >
+                  적용
+                </button>
+              </div>
+            </div>
           </div>
 
-          {/* Render Posts */}
           {currentPosts.map((post) => (
             <div
               key={post.id}
@@ -193,7 +216,7 @@ const MBTIBoard: React.FC = () => {
             </div>
           ))}
 
-          {/* Pagination */}
+      
           <div className="flex justify-center mt-4">
             <Pagination
               currentPage={currentPage}
@@ -203,7 +226,7 @@ const MBTIBoard: React.FC = () => {
             />
           </div>
 
-          {/* Write Button */}
+  
           <div className="flex m-4">
             <button
               className="bg-blue-500 hover:bg-blue-700 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-2 px-4 rounded shadow ml-auto"
@@ -214,12 +237,6 @@ const MBTIBoard: React.FC = () => {
           </div>
         </div>
 
-        {/* Footer */}
-        <footer className="bg-gray-200 py-4 text-center shadow-lg">
-          <div className="container mx-auto px-4">
-            <p className="text-gray-600 text-sm">GDSC 2nd Project MBTI</p>
-          </div>
-        </footer>
       </div>
     </>
   );
