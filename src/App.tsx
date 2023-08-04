@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Index from "./index";
-import Board from "./pages/Board/index";
 import BoardDetail from "./pages/Board/BoardDetail";
 import MBTIBoard from "./pages/Board/MBTIindex";
 import WritePage from "./pages/Board/WritePage";
@@ -45,7 +44,6 @@ const App = () => {
                   }
                 />
                 <Route path="/test" element={<MbtiTest />} />
-                <Route path="/totalboard" element={<Board />} />
                 <Route path="/totalboarddetail/:id" element={<BoardDetail />} />
                 <Route path="/boardmodify/:id" element={<BoardModify />} />
                 <Route path="/mbtiboard" element={<MBTIBoard />} />

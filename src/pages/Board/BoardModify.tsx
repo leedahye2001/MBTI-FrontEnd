@@ -10,23 +10,32 @@ interface Post {
 }
 
 const BoardModify = () => {
-  const { id } = useParams(); // URL 매개변수에서 글 ID 가져오기
+  const { id } = useParams(); 
   const navigate = useNavigate();
   const [post, setPost] = useState<Post | null>(null);
   const [content, setContent] = useState('');
 
   useEffect(() => {
-    // 글 ID를 기반으로 서버에서 글 내용 가져오기
     const fetchPost = async () => {
       try {
-        const response = await axios.get<Post>(`https://gdscmbti.ducknds.org/api/board/${id}`);
+        const response = await axios.get<Post>(`https://gdscmbti.ducknds.org/api/board/${id}`, { maxRedirects: 0 });
         setPost(response.data);
         setContent(response.data.content);
-      } catch (error) {
-        console.log(error);
+      } catch (err : any) { // 'error'를 'err'로 변경
+        if (err.response && err.response.status === 302) {
+          try {
+            const redirectedResponse = await axios.get<Post>(err.response.headers.location);
+            setPost(redirectedResponse.data);
+            setContent(redirectedResponse.data.content);
+          } catch (err) { // 'error'를 'err'로 변경
+            console.log(err);
+          }
+        } else {
+          console.log(err);
+        }
       }
     };
-
+  
     fetchPost();
   }, [id]);
 
@@ -39,7 +48,7 @@ const BoardModify = () => {
 
     try {
       await axios.put(`https://gdscmbti.ducknds.org/api/board/${id}`, { ...post, content }); // 글 수정 요청
-      navigate('/totalboard'); // 수정 완료 후 게시판 페이지로 이동
+      navigate('/mbtiboard'); // 수정 완료 후 게시판 페이지로 이동
     } catch (error) {
       console.log(error);
     }
@@ -50,7 +59,7 @@ const BoardModify = () => {
   }
 
   const handlePrevious = () => {
-    navigate('/totalboard');
+    navigate('/mbtiboard');
   };
 
   return (
