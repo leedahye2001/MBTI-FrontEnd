@@ -1,23 +1,71 @@
 import React from "react";
 import ENTPImage from "../../assets/MbtiResult/ENTP - Apple - 결과.png";
+import INTJImage from "../../assets/MbtiResult/INTJ - Google - 결과.png";
+import ISFPImage from "../../assets/MbtiResult/ISFP - Patagonia - 결과.png";
+import ENFJImage from "../../assets/MbtiResult/ENFJ - Nike - 결과.png";
+import INFPImage from "../../assets/MbtiResult/INFP - Netflix - 결과.png";
+import ESFPImage from "../../assets/MbtiResult/ESFP - McDonald - 결과.png";
+import ISTJImage from "../../assets/MbtiResult/ISTJ - Microsoft - 결과.png";
+import ESTPImage from "../../assets/MbtiResult/ESTP - Samsung - 결과.png";
+import INFJImage from "../../assets/MbtiResult/INFJ - Unicef - 결과.png";
+import ESFJImage from "../../assets/MbtiResult/ESFJ - Coca-Cola - 결과.png";
+import ISFJImage from "../../assets/MbtiResult/ISFJ - Walt Disney Company - 결과.png";
+import ESTJImage from "../../assets/MbtiResult/ESTJ - Amazon - 결과.png";
+import INTPImage from "../../assets/MbtiResult/INTP - Tesla - 결과.png";
+import ENTJImage from "../../assets/MbtiResult/ENTJ - BMW - 결과.png";
+import ISTPImage from "../../assets/MbtiResult/ISTP - Intel - 결과.png";
+import ENFPImage from "../../assets/MbtiResult/ENFP - Facebook - 결과.png";
+
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 
 interface MbtiResultProps {
   mbtiResult: string;
+  showResult: boolean;
+  setShowResult: React.Dispatch<React.SetStateAction<boolean>>;
+  onRestartTest: () => void;
 }
 
-const MbtiResult: React.FC<MbtiResultProps> = ({ mbtiResult }) => {
+const MbtiResult: React.FC<MbtiResultProps> = ({
+  mbtiResult,
+  setShowResult,
+  onRestartTest,
+}) => {
   const getImagePath = (result: string) => {
     switch (result.toLowerCase()) {
       case "entp":
         return ENTPImage;
-      // case "intj":
-      //   return INTJImage;
-      // case "isfp":
-      //   return ISFPImage;
-      // ...
+      case "intj":
+        return INTJImage;
+      case "isfp":
+        return ISFPImage;
+      case "enfj":
+        return ENFJImage;
+      case "infp":
+        return INFPImage;
+      case "esfp":
+        return ESFPImage;
+      case "istj":
+        return ISTJImage;
+      case "estp":
+        return ESTPImage;
+      case "infj":
+        return INFJImage;
+      case "esfj":
+        return ESFJImage;
+      case "isfj":
+        return ISFJImage;
+      case "estj":
+        return ESTJImage;
+      case "intp":
+        return INTPImage;
+      case "entj":
+        return ENTJImage;
+      case "istp":
+        return ISTPImage;
+      case "enfp":
+        return ENFPImage;
       default:
         return null;
     }
@@ -39,7 +87,8 @@ const MbtiResult: React.FC<MbtiResultProps> = ({ mbtiResult }) => {
         <div className="flex flex-col gap-2 my-10">
           <Button
             onClick={() => {
-              navigate("/test");
+              onRestartTest();
+              setShowResult(false);
             }}
           >
             다시 테스트 하러 가기 ⏎
