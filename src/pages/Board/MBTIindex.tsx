@@ -4,6 +4,10 @@ import axios from "axios";
 import { MdComment, MdCreate } from "react-icons/md";
 import Pagination from "../../components/Pagination";
 
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { userNameSelector, userAtom } from "../login/atoms";
+
+
 interface Post {
   id: number;
   nickname: string;
@@ -18,6 +22,38 @@ const MBTIBoard: React.FC = () => {
   const [selectedMbti, setSelectedMbti] = useState<string[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
   const [confirmFiltering, setConfirmFiltering] = useState(false);
+
+  const userName = useRecoilValue(userNameSelector);
+  const setUser = useSetRecoilState(userAtom);
+
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get(
+        "https://gdscmbti.duckdns.org/v1/oauth/member/info",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          withCredentials: true, // 쿠키를 자동으로 전송하기 위해 설정
+        }
+      );
+      console.log(response.data);
+      const userInfo = response.data;
+      setUser(userInfo); // Recoil atom에 사용자 정보 저장
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.response);
+      } else {
+        console.error("Other error:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+
 
   const navigate = useNavigate();
 
@@ -131,7 +167,7 @@ const MBTIBoard: React.FC = () => {
     <>
       <div className="flex flex-col min-h-screen">
         <div className="flex-grow">
-          {/* MBTI Checkboxes */}
+        
           <div className="flex flex-wrap items-center justify-center mt-10">
             <div className="grid grid-cols-4 gap-4">
               <div className="flex items-center">
@@ -189,9 +225,11 @@ const MBTIBoard: React.FC = () => {
               key={post.id}
               className="border border-gray-300 rounded-lg p-4 m-10 relative"
             >
-              <h2 className="font-bold text-xl mb-2 font-custom">
-                {post.nickname}
-              </h2>
+              
+              {userName && ( 
+              <h2 className="font-bold text-xl mb-2 font-custom">{userName}</h2>)
+              }
+              
               <p className="font-custom">{post.content}</p>
               <div className="flex mt-2">
                 <button
