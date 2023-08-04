@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { userNameSelector, userAtom } from "../login/atoms";
+
 interface Reply {
   id: number;
   nickname: string;
@@ -23,11 +26,43 @@ const BoardDetail: React.FC = () => {
   const [post, setPost] = useState<PostDetail | null>(null);
   const [newReply, setNewReply] = useState<string>("");
   const [replyList, setReplyList] = useState<Reply[]>([]);
-  const [nickname, setNickname] = useState<string>("");
   const [editingReplyId, setEditingReplyId] = useState<number | null>(null);
   const [editedReplies, setEditedReplies] = useState<{ [key: number]: string }>(
     {}
   );
+
+  const userName = useRecoilValue(userNameSelector);
+  const setUser = useSetRecoilState(userAtom);
+
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get(
+        "https://gdscmbti.duckdns.org/v1/oauth/member/info",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          withCredentials: true, // 쿠키를 자동으로 전송하기 위해 설정
+        }
+      );
+      console.log(response.data);
+      const userInfo = response.data;
+      setUser(userInfo); // Recoil atom에 사용자 정보 저장
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.response);
+      } else {
+        console.error("Other error:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+
+
 
   const navigate = useNavigate();
 
@@ -67,7 +102,7 @@ const BoardDetail: React.FC = () => {
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (newReply.trim() === "" || nickname.trim() === "") {
+    if (newReply.trim() === "") {
       return;
     }
 
@@ -75,7 +110,6 @@ const BoardDetail: React.FC = () => {
       await axios.post<Reply>(
         `https://gdscmbti.duckdns.org/api/board/${id}/reply`,
         {
-          nickname: nickname,
           content: newReply,
           mbti: "INTP",
           postId: id,
@@ -83,7 +117,6 @@ const BoardDetail: React.FC = () => {
       );
 
       setNewReply("");
-      setNickname("");
       fetchReplies();
     } catch (error) {
       console.log(error);
@@ -180,14 +213,18 @@ const BoardDetail: React.FC = () => {
   return (
     <div>
       <div className="bg-white shadow p-4 mb-4 text-center">
-        <h2 className="text-xl font-bold mb-2">{post.nickname}</h2>
+      {userName && ( 
+        <h2 className="font-bold text-xl mb-2 font-custom">{userName}</h2>)
+      }
         <p className="text-base">{post.content}</p>
       </div>
       <div className="bg-white shadow p-4">
         <h3 className="text-lg font-bold mb-2">댓글</h3>
         {replyList.map((reply, index) => (
           <div className="flex items-center" key={`reply-${index}`}>
-            <h4 className="font-bold flex-shrink-0">{reply.nickname}</h4>
+            {userName && ( 
+            <h4 className="font-bold flex-shrink-0">{userName}</h4>)
+            }
             {editingReplyId === reply.id ? (
               <>
                 <input
@@ -237,13 +274,10 @@ const BoardDetail: React.FC = () => {
         ))}
 
         <form onSubmit={handleReplySubmit} className="mt-4">
-          <input
-            type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            placeholder="닉네임을 입력하세요."
-            className="border border-gray-300 rounded p-2 mr-2"
-          />
+          
+          {userName && ( 
+          <h4 className="font-bold text-xl mb-2 font-custom">{userName}</h4>)
+          }
           <input
             type="text"
             value={newReply}
