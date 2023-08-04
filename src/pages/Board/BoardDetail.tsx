@@ -130,6 +130,7 @@ const BoardDetail: React.FC = () => {
       );
       const updatedReplyList = replyList.filter((reply) => reply.id !== replyId);
       setReplyList(updatedReplyList);
+      window.confirm("정말 삭제할거야?");
     } catch (error) {
       console.log(error);
     }
@@ -197,13 +198,8 @@ const BoardDetail: React.FC = () => {
     setEditingReplyId(null);
   };
 
-  const handlePostDelete = async () => {
-    try {
-      await axios.delete(`https://gdscmbti.duckdns.org/api/board/${id}`);
-      navigate("/mbtiboard"); // Corrected the function name to "navigate"
-    } catch (error) {
-      console.log(error);
-    }
+  const handlePrevious = () => {
+    navigate('/mbtiboard');
   };
 
   if (!post) {
@@ -219,7 +215,7 @@ const BoardDetail: React.FC = () => {
         <p className="text-base">{post.content}</p>
       </div>
       <div className="bg-white shadow p-4">
-        <h3 className="text-lg font-bold mb-2">댓글</h3>
+        <h3 className="text-lg font-bold mb-2">👇  댓글은 여기다 적어!</h3>
         {replyList.map((reply, index) => (
           <div className="flex items-center" key={`reply-${index}`}>
             {userName && ( 
@@ -242,7 +238,7 @@ const BoardDetail: React.FC = () => {
                 />
                 <button
                   onClick={() => handleReplySubmitEdit(reply.id)}
-                  className="text-purple-500 hover:text-purple-700 mr-2"
+                  className="text-green-500 hover:text-purple-700 mr-2"
                 >
                   수정 완료
                 </button>
@@ -288,17 +284,17 @@ const BoardDetail: React.FC = () => {
 
           <button
             type="submit"
-            className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
           >
             댓글 작성
           </button>
         </form>
       </div>
       <button
-        onClick={handlePostDelete}
-        className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2 mr-2 mb-2"
+        onClick={handlePrevious}
+        className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 mt-5"
       >
-        게시글 삭제
+        게시판으로
       </button>
     </div>
   );
