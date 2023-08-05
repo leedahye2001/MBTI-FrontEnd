@@ -124,6 +124,12 @@ const BoardDetail: React.FC = () => {
   };
 
   const handleReplyDelete = async (replyId: number) => {
+
+    if (userName !== replyList.find(reply => reply.id === replyId)?.nickname) {
+      alert("댓글 작성자만 삭제할 수 있습니다.");
+      return;
+    }
+
     try {
       await axios.delete(
         `https://gdscmbti.duckdns.org/api/board/${id}/reply/${replyId}`
@@ -137,10 +143,15 @@ const BoardDetail: React.FC = () => {
   };
 
   const handleReplyEdit = (replyId: number) => {
-    // Get the content of the reply being edited
+   
     const replyToEdit = replyList.find((reply) => reply.id === replyId);
+
+    if (userName !== replyToEdit?.nickname) {
+      alert("댓글 작성자만 수정할 수 있습니다.");
+      return;
+    }
   
-    // Set the original content in the editedReplies state
+   
     if (replyToEdit) {
       setEditedReplies({
         ...editedReplies,
@@ -177,6 +188,12 @@ const BoardDetail: React.FC = () => {
     const updatedContent = editedReplies[replyId];
 
     if (!updatedContent?.trim()) {
+      return;
+    }
+
+    const replyToEdit = replyList.find(reply => reply.id === replyId);
+    if (userName !== replyToEdit?.nickname) {
+      alert("댓글 작성자만 수정할 수 있습니다.");
       return;
     }
 

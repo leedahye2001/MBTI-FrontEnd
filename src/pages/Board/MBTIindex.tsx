@@ -100,15 +100,23 @@ const MBTIBoard: React.FC = () => {
   };
 
   const handlePostDelete = async (id: number) => {
-    const confirmDelete = window.confirm("정말 삭제할거야?");
-    if (confirmDelete) {
-      try {
-        await axios.delete(`https://gdscmbti.duckdns.org/api/board/${id}`);
-        fetchData(); // Refetch the data after deleting the post
-      } catch (error) {
-        console.log(error);
-      }
+
+    if (userName !== postList.find(post => post.id === id)?.nickname) {
+      alert("게시글 작성자만 삭제할 수 있습니다.");
+      return;
     }
+    
+      const confirmDelete = window.confirm("정말 삭제할거야?");
+      if (confirmDelete) {
+        try {
+          await axios.delete(`https://gdscmbti.duckdns.org/api/board/${id}`);
+          fetchData(); // Refetch the data after deleting the post
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    
+
   };
 
   const handlePostDetail = (postId: number) => {
@@ -116,6 +124,13 @@ const MBTIBoard: React.FC = () => {
   };
 
   const handleBoardModify = (postId: number) => {
+
+    const post = postList.find(post => post.id === postId);
+    if (userName !== post?.nickname) {
+      alert("게시글 작성자만 수정할 수 있습니다.");
+      return;
+    }
+
     navigate(`/boardmodify/${postId}`);
   };
 
