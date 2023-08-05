@@ -123,9 +123,19 @@ const BoardDetail: React.FC = () => {
     }
   };
 
-  const handleReplyDelete = async (replyId: number) => {
+   // 댓글 작성자가 댓글을 수정하거나 삭제할 수 있는지를 확인하는 함수
+   const isReplyAuthor = (reply: Reply) => {
+    return userName === reply.nickname;
+  };
 
-    if (userName !== replyList.find(reply => reply.id === replyId)?.nickname) {
+ const handleReplyDelete = async (replyId: number) => {
+    const replyToDelete = replyList.find((reply) => reply.id === replyId);
+
+    if (!replyToDelete) {
+      return;
+    }
+
+    if (!isReplyAuthor(replyToDelete)) {
       alert("댓글 작성자만 삭제할 수 있습니다.");
       return;
     }
@@ -134,32 +144,37 @@ const BoardDetail: React.FC = () => {
       await axios.delete(
         `https://gdscmbti.duckdns.org/api/board/${id}/reply/${replyId}`
       );
-      const updatedReplyList = replyList.filter((reply) => reply.id !== replyId);
-      setReplyList(updatedReplyList);
-      window.confirm("정말 삭제할거야?");
+
+      setReplyList((prevReplyList) =>
+        prevReplyList.filter((reply) => reply.id !== replyId)
+      );
+
+      if (window.confirm("정말 삭제하시겠습니까?")) {
+        // 삭제 확인 여부 확인 후, 삭제 작업을 수행합니다.
+        // 여기서 삭제 작업을 하시면 됩니다.
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleReplyEdit = (replyId: number) => {
-   
     const replyToEdit = replyList.find((reply) => reply.id === replyId);
 
-    if (userName !== replyToEdit?.nickname) {
+    if (!replyToEdit) {
+      return;
+    }
+
+    if (!isReplyAuthor(replyToEdit)) {
       alert("댓글 작성자만 수정할 수 있습니다.");
       return;
     }
-  
-   
-    if (replyToEdit) {
-      setEditedReplies({
-        ...editedReplies,
-        [replyId]: replyToEdit.content,
-      });
-    }
-  
-    // Set the editingReplyId to the current replyId to indicate the edit mode
+
+    setEditedReplies({
+      ...editedReplies,
+      [replyId]: replyToEdit.content,
+    });
+
     setEditingReplyId(replyId);
   };
 
@@ -177,6 +192,7 @@ const BoardDetail: React.FC = () => {
           content: updatedContent,
         }
       );
+
       setEditingReplyId(null);
       fetchReplies();
     } catch (error) {
