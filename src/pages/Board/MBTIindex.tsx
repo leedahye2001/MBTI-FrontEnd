@@ -101,7 +101,9 @@ const MBTIBoard: React.FC = () => {
 
   const handlePostDelete = async (id: number) => {
 
-    if (userName !== postList.find(post => post.id === id)?.nickname) {
+    const post = postList.find(post => post.id === id);
+
+    if (userName !== post?.nickname) {
       alert("게시글 작성자만 삭제할 수 있습니다.");
       return;
     }
@@ -125,8 +127,13 @@ const MBTIBoard: React.FC = () => {
 
   const handleBoardModify = (postId: number) => {
 
-    const post = postList.find(post => post.id === postId);
-    if (userName !== post?.nickname) {
+    const post = postList.find((post) => post.id === postId);
+
+    if (!post) {
+      return;
+    }
+
+    if (userName !== post.nickname) {
       alert("게시글 작성자만 수정할 수 있습니다.");
       return;
     }
@@ -241,8 +248,8 @@ const MBTIBoard: React.FC = () => {
               className="border border-gray-300 rounded-lg p-4 m-10 relative"
             >
               
-              {userName && ( 
-              <h2 className="font-bold text-xl mb-2 font-custom">{userName}</h2>)
+              {post.nickname && ( 
+              <h2 className="font-bold text-xl mb-2 font-custom">{post.nickname}</h2>)
               }
               
               <p className="font-custom">{post.content}</p>
