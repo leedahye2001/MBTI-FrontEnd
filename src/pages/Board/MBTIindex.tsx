@@ -13,6 +13,8 @@ interface Post {
   nickname: string;
   content: string;
   mbti: string;
+  createdAt: string; 
+  updatedAt: string; 
 }
 
 const MBTIBoard: React.FC = () => {
@@ -25,6 +27,20 @@ const MBTIBoard: React.FC = () => {
 
   const userName = useRecoilValue(userNameSelector);
   const setUser = useSetRecoilState(userAtom);
+  const [userGoogleName, setUserGoogleName] = useState<string>("");
+
+  const fetchData = async () => {
+    try {
+
+      await fetchUserInfo();
+
+      const response = await axios.get<Post[]>("https://gdscmbti.duckdns.org/api/board");
+      setPostList(response.data);
+      setFilteredPosts(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchUserInfo = async () => {
     try {
@@ -41,6 +57,7 @@ const MBTIBoard: React.FC = () => {
       console.log(response.data);
       const userInfo = response.data;
       setUser(userInfo); // Recoil atom에 사용자 정보 저장
+      setUserGoogleName(userInfo.name); // 게시글 작성자의 구글 이름 저장
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response);
@@ -51,25 +68,13 @@ const MBTIBoard: React.FC = () => {
   };
 
   useEffect(() => {
+    fetchData();
     fetchUserInfo();
-  }, []);
+  }, [fetchData, fetchUserInfo ]);
 
 
   const navigate = useNavigate();
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get<Post[]>("https://gdscmbti.duckdns.org/api/board");
-      setPostList(response.data);
-      setFilteredPosts(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const applyFilters = useCallback(() => {
     const updatedFilteredPosts =
@@ -184,6 +189,11 @@ const MBTIBoard: React.FC = () => {
     setConfirmFiltering(false); // Reset the confirmFiltering state when the "전체" checkbox is clicked
   };
 
+  const formatDate = (dateString : any) => {
+    const date = new Date(dateString);
+    return date.toLocaleString();
+  };
+
 
   return (
     <>
@@ -248,11 +258,17 @@ const MBTIBoard: React.FC = () => {
               className="border border-gray-300 rounded-lg p-4 m-10 relative"
             >
               
-              {post.nickname && ( 
-              <h2 className="font-bold text-xl mb-2 font-custom">{post.nickname}</h2>)
-              }
+              <h2 className="font-bold text-xl mb-2 font-custom">
+                {userName === post.nickname ? userName : userGoogleName}
+              </h2>
               
               <p className="font-custom">{post.content}</p>
+              <div className="mt-2 flex justify-end text-sm text-gray-500">
+                <div className="text-right">
+                  <p>작성일 {formatDate(post.createdAt)}</p>
+                  <p>수정일 {formatDate(post.updatedAt)}</p>
+                </div>
+              </div>
               <div className="flex mt-2">
                 <button
                   className="text-blue-500 hover:text-blue-700 mr-2"
