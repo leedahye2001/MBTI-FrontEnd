@@ -58,12 +58,6 @@ const BoardDetail: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    fetchUserInfo();
-  }, []);
-
-
-
   const navigate = useNavigate();
 
   const fetchPostDetail = useCallback(async () => {
@@ -80,9 +74,6 @@ const BoardDetail: React.FC = () => {
     }
   }, [id]);
 
-  useEffect(() => {
-    fetchPostDetail();
-  }, [fetchPostDetail]);
 
   const fetchReplies = useCallback(async () => {
     try {
@@ -96,8 +87,10 @@ const BoardDetail: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
+    fetchUserInfo();
+    fetchPostDetail();
     fetchReplies();
-  }, [fetchReplies]);
+  }, [fetchPostDetail, fetchReplies]);
 
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -239,12 +232,14 @@ const BoardDetail: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  // 작성자가 구글 이름이라면 게시글의 작성자를 구글 이름으로 렌더링하고,
+  // 작성자가 구글 이름이 아니라면 게시글의 작성자를 사용자 이름으로 렌더링합니다.
+  const authorName = userName === post.nickname ? userName : post.nickname;
+
   return (
     <div>
       <div className="bg-white shadow p-4 mb-4 text-center">
-      {userName && ( 
-        <h2 className="font-bold text-xl mb-2 font-custom">{userName}</h2>)
-      }
+        {userName && <h2 className="font-bold text-xl mb-2 font-custom">{authorName}</h2>}
         <p className="text-base">{post.content}</p>
       </div>
       <div className="bg-white shadow p-4">
