@@ -65,9 +65,6 @@ const LoginPage: React.FC<LoginPageProps> = ({
     <GoogleOAuthProvider clientId="30471056996-73pcva8f87e441abujp8bevhc9r7th71.apps.googleusercontent.com">
       {isAuthenticated ? (
         <div className="items-center text-center flex flex-col gap-4">
-          {user.name && (
-            <p className="font-normal text-[14px]">{user.name} 님 :)</p>
-          )}
           <Button onClick={handleNavigation}>테스트 하러 가기 🚀</Button>
           <div className="flex gap-2 rounded-full bg-[#e8e8e8] px-3 py-2">
             <FiLogOut size="18" />
@@ -128,12 +125,12 @@ const Index: React.FC<IndexProps> = ({
       className="flex-1 flex items-center justify-center h-screen"
     >
       <div className="flex items-center justify-center">
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center font-bold text-[17px] ">
           <img className="w-[50px]" src={GLogo} alt="GDTI small logo" />
-          <p className="font-bold text-[20px] mt-4">
+          <p className="mt-4">
             {indexIsAuthenticated ? "GDTI를 " : "GDTI 이용을 위해 "}
           </p>
-          <h1 className="font-bold text-[20px] mb-2">
+          <h1 className="mb-2">
             {indexIsAuthenticated ? "사용해 보세요 !" : "로그인을 해주세요 !"}
           </h1>
           <LoginPage
