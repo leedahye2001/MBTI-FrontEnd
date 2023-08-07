@@ -19,12 +19,12 @@ const pageContentYes = [
   "당연하다 !",
   "너무 재밌어..! 바로 유튜브나 구글링으로 찾아본다.",
   "아악 그때 난 왜 그랬지,,\n문득문득 떠오르고 너무 후회된다.",
-  "그렇다",
+  "그렇다.",
   "바로 대화에 참여해서 신나게 토론한다.",
   "아무나 빨리 나한테 얘기해줘.\n무슨 얘기인지 너~무 궁금하다.",
   "흥미진진. 팝콘 가져와🍿 너무 재밌다.",
   "후~ Calm Down. 평정심을 유지한다.",
-  "그렇다",
+  "그렇다.",
   "친구를 이해하기 위해 많은 시간이 필요하다.",
   "부랴부랴,, 매번 마감 기한을 지키기가 힘들다.",
   "마지막까지 미루는 편이다.",
@@ -42,12 +42,12 @@ const pageContentNo = [
   "딱히 ..? 그렇지 않다.",
   "그냥 한 작품을 보고 왔구나 싶다.",
   "평소에 딱히 후회될 일이 떠오르진 않는다.",
-  "그렇지 않다",
+  "그렇지 않다.",
   "어엄 .. 별로 재미없다.",
   "그렇구나 .. 할 일 하러 간다.",
   "빨리 저 상황이 끝났으면 좋겠다..;;",
   "심장이 쿵쿵. 너무 긴장되어서 심장이 나올 것 같다.",
-  "그렇지 않다",
+  "그렇지 않다.",
   "들어보니 친구의 입장이 이해가 된다.",
   "이미 다 해뒀거나, 여유있게 다시 확인한다.",
   "바로바로 결정을 내리는 편이다.",
@@ -151,7 +151,7 @@ const MbtiTest: React.FC = () => {
           <div className="flex items-center justify-center">
             {questions.length > 0 && (
               <div className="flex flex-col items-center justify-center">
-                <h1 className="text-center font-light text-white text-[18px] p-4">
+                <h1 className="text-center font-light text-white text-[17px] p-4">
                   {questions[currentPage].content}
                 </h1>
                 <div className="flex gap-2 flex-col my-[100px] text-center mx-2">
@@ -174,7 +174,7 @@ const MbtiTest: React.FC = () => {
                       checked={answers[currentPage] === true}
                       onChange={() => handleAnswerChange(true)}
                     />
-                    <p className="whitespace-pre-line">
+                    <p className="whitespace-pre-line text-[14px]">
                       {pageContentYes[currentPage]}
                     </p>
                   </label>
@@ -197,7 +197,7 @@ const MbtiTest: React.FC = () => {
                       checked={answers[currentPage] === false}
                       onChange={() => handleAnswerChange(false)}
                     />
-                    <p className="whitespace-pre-line">
+                    <p className="whitespace-pre-line text-[14px]">
                       {pageContentNo[currentPage]}
                     </p>
                   </label>
