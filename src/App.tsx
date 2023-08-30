@@ -61,8 +61,6 @@ const App = () => {
               </Routes>
             ) : (
               <Routes>
-                {" "}
-                <Route path="/test" element={<MbtiTest />} />
                 <Route
                   index
                   path="/"
