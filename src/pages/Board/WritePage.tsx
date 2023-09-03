@@ -15,6 +15,7 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
   const isMountedRef = React.useRef(true);
 
   const user = useRecoilValue(userAtom);
+  
   const setUser = useSetRecoilState(userAtom);
   const isAuthenticated = useRecoilValue(isAuthenticatedAtom);
 
@@ -65,6 +66,7 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
       const newPost = {
         mbti: 'ISFJ',
         content: content,
+         nickname: user.name, // 현재 로그인한 사용자의 구글 이름을 게시판 DB의 nickname 필드에 저장
       };
       await axios.post('https://gdscmbti.duckdns.org/api/board/write', newPost);
 
