@@ -3,7 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userAtom, isAuthenticatedAtom } from "../login/atoms";
+
+import {
+  userNameSelector,
+  userAtom,
+  userEmailSelector,
+  isAuthenticatedAtom,
+} from "../login/atoms";
 
 interface WritePageProps {
   onPostSubmit: (content: string) => void;
@@ -14,9 +20,11 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isMountedRef = React.useRef(true);
 
-  const user = useRecoilValue(userAtom);
+  const userName = useRecoilValue(userNameSelector);
   const setUser = useSetRecoilState(userAtom);
   const isAuthenticated = useRecoilValue(isAuthenticatedAtom);
+
+  const userEmail = useRecoilValue(userEmailSelector);
 
   const navigate = useNavigate();
 
@@ -29,19 +37,27 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-          withCredentials: true,
+          withCredentials: true, // Send cookies automatically
         }
       );
       console.log(response.data);
       const userInfo = response.data;
-      setUser(userInfo);
+      setUser(userInfo); // Save user information in Recoil atom
     } catch (error) {
-      console.error("Error fetching user info:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.response);
+      } else {
+        console.error("Other error:", error);
+      }
     }
   };
 
   useEffect(() => {
     fetchUserInfo();
+  }, []);
+
+
+  useEffect(() => {
     return () => {
       isMountedRef.current = false;
     };
@@ -62,19 +78,21 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
     }
     try {
       setIsSubmitting(true);
+      
       const newPost = {
-        mbti: 'ISFJ',
+        mbti: "ISFJ",
         content: content,
+        email: userEmail,
       };
       await axios.post('https://gdscmbti.duckdns.org/api/board/write', newPost);
 
       if (isMountedRef.current) {
-        onPostSubmit(content);
+        onPostSubmit(content); // Add the content to the board
         setContent('');
         navigate('/mbtiboard');
       }
     } catch (error) {
-      console.error("Error submitting post:", error);
+      console.log(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -91,8 +109,8 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
           <h1 className="text-3xl font-medium text-gray-900 dark:text-white">👇 Write Something!</h1>
         </div>
         <form onSubmit={handleSubmit} className="mt-4">
-          {isAuthenticated && user && (
-            <p className="font-bold text-xl mb-2 font-custom">{user.name}</p>
+          {isAuthenticated && userName && (
+            <p className="font-bold text-xl mb-2 font-custom">{userName}</p>
           )}
           <textarea
             value={content}

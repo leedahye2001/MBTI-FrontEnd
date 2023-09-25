@@ -31,7 +31,9 @@ const MBTIBoard: React.FC = () => {
 
   const fetchData = async () => {
     try {
+
       await fetchUserInfo();
+
       const response = await axios.get<Post[]>("https://gdscmbti.duckdns.org/api/board");
       setPostList(response.data);
       setFilteredPosts(response.data);
@@ -49,13 +51,13 @@ const MBTIBoard: React.FC = () => {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-          withCredentials: true,
+          withCredentials: true, // 쿠키를 자동으로 전송하기 위해 설정
         }
       );
       console.log(response.data);
       const userInfo = response.data;
-      setUser(userInfo);
-      setUserGoogleName(userInfo.name);
+      setUser(userInfo); // Recoil atom에 사용자 정보 저장
+      setUserGoogleName(userInfo.name); // 게시글 작성자의 구글 이름 저장
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response);
@@ -68,7 +70,7 @@ const MBTIBoard: React.FC = () => {
   useEffect(() => {
     fetchData();
     fetchUserInfo();
-  }, []);
+  }, [fetchData, fetchUserInfo ]);
 
 
   const navigate = useNavigate();
@@ -103,6 +105,7 @@ const MBTIBoard: React.FC = () => {
   };
 
   const handlePostDelete = async (id: number) => {
+
     const post = postList.find(post => post.id === id);
 
     if (userName !== post?.nickname) {
@@ -110,15 +113,17 @@ const MBTIBoard: React.FC = () => {
       return;
     }
     
-    const confirmDelete = window.confirm("정말 삭제할거야?");
-    if (confirmDelete) {
-      try {
-        await axios.delete(`https://gdscmbti.duckdns.org/api/board/${id}`);
-        fetchData(); // Refetch the data after deleting the post
-      } catch (error) {
-        console.log(error);
+      const confirmDelete = window.confirm("정말 삭제할거야?");
+      if (confirmDelete) {
+        try {
+          await axios.delete(`https://gdscmbti.duckdns.org/api/board/${id}`);
+          fetchData(); // Refetch the data after deleting the post
+        } catch (error) {
+          console.log(error);
+        }
       }
-    }
+    
+
   };
 
   const handlePostDetail = (postId: number) => {
@@ -126,6 +131,7 @@ const MBTIBoard: React.FC = () => {
   };
 
   const handleBoardModify = (postId: number) => {
+
     const post = postList.find((post) => post.id === postId);
 
     if (!post) {

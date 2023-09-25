@@ -43,20 +43,12 @@ const BoardDetail: React.FC = () => {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-          withCredentials: true,
+          withCredentials: true, // 쿠키를 자동으로 전송하기 위해 설정
         }
       );
       console.log(response.data);
       const userInfo = response.data;
-      
-      // Assuming the backend API provides the user's Google name in the response
-      // Adjust the property name accordingly based on your actual API response
-      const googleName = userInfo.googleName;
-      
-      setUser({
-        ...userInfo,
-        userName: googleName, // Add the Google name to the user object
-      });
+      setUser(userInfo); // Recoil atom에 사용자 정보 저장
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response);
@@ -65,10 +57,6 @@ const BoardDetail: React.FC = () => {
       }
     }
   };
-  
-  useEffect(() => {
-    fetchUserInfo();
-  }, []);
 
   const navigate = useNavigate();
 
@@ -86,9 +74,6 @@ const BoardDetail: React.FC = () => {
     }
   }, [id]);
 
-  useEffect(() => {
-    fetchPostDetail();
-  }, [fetchPostDetail]);
 
   const fetchReplies = useCallback(async () => {
     try {
@@ -102,8 +87,10 @@ const BoardDetail: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
+    fetchUserInfo();
+    fetchPostDetail();
     fetchReplies();
-  }, [fetchReplies]);
+  }, [fetchPostDetail, fetchReplies]);
 
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -245,12 +232,14 @@ const BoardDetail: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  // 작성자가 구글 이름이라면 게시글의 작성자를 구글 이름으로 렌더링하고,
+  // 작성자가 구글 이름이 아니라면 게시글의 작성자를 사용자 이름으로 렌더링합니다.
+  const authorName = userName === post.nickname ? userName : post.nickname;
+
   return (
     <div>
       <div className="bg-white shadow p-4 mb-4 text-center">
-      {userName && ( 
-        <h2 className="font-bold text-xl mb-2 font-custom">{userName}</h2>)
-      }
+        {userName && <h2 className="font-bold text-xl mb-2 font-custom">{authorName}</h2>}
         <p className="text-base">{post.content}</p>
       </div>
       <div className="bg-white shadow p-4">
@@ -258,7 +247,7 @@ const BoardDetail: React.FC = () => {
         {replyList.map((reply, index) => (
           <div className="flex items-center" key={`reply-${index}`}>
             {userName && ( 
-            <h4 className="font-bold flex-shrink-0">{userName}  </h4>)
+            <h4 className="font-bold flex-shrink-0">{userName}</h4>)
             }
             {editingReplyId === reply.id ? (
               <>
