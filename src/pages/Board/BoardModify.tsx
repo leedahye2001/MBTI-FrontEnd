@@ -4,7 +4,7 @@ import axios from 'axios';
 
 interface Post {
   id: number;
-  nickname: string;
+  name: string;
   content: string;
   mbti: string;
 }
