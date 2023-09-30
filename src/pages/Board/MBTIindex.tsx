@@ -5,12 +5,13 @@ import { MdComment, MdCreate } from "react-icons/md";
 import Pagination from "../../components/Pagination";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userNameSelector, userAtom } from "../login/atoms";
+import { userNameSelector, userEmailSelector, userAtom } from "../login/atoms";
 
 
 interface Post {
   id: number;
-  nickname: string;
+  email: string;
+  name: string;
   content: string;
   mbti: string;
   createdAt: string; 
@@ -26,8 +27,9 @@ const MBTIBoard: React.FC = () => {
   const [confirmFiltering, setConfirmFiltering] = useState(false);
 
   const userName = useRecoilValue(userNameSelector);
+  const userEmail = useRecoilValue(userEmailSelector);
+
   const setUser = useSetRecoilState(userAtom);
-  const [userGoogleName, setUserGoogleName] = useState<string>("");
 
   const fetchData = async () => {
     try {
@@ -57,7 +59,6 @@ const MBTIBoard: React.FC = () => {
       console.log(response.data);
       const userInfo = response.data;
       setUser(userInfo); // Recoil atom에 사용자 정보 저장
-      setUserGoogleName(userInfo.name); // 게시글 작성자의 구글 이름 저장
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response);
@@ -68,9 +69,8 @@ const MBTIBoard: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchData();
     fetchUserInfo();
-  }, [fetchData, fetchUserInfo ]);
+  }, []);
 
 
   const navigate = useNavigate();
@@ -108,7 +108,7 @@ const MBTIBoard: React.FC = () => {
 
     const post = postList.find(post => post.id === id);
 
-    if (userName !== post?.nickname) {
+    if (userName !== post?.name) {
       alert("게시글 작성자만 삭제할 수 있습니다.");
       return;
     }
@@ -138,7 +138,7 @@ const MBTIBoard: React.FC = () => {
       return;
     }
 
-    if (userName !== post.nickname) {
+    if (userName !== post.name) {
       alert("게시글 작성자만 수정할 수 있습니다.");
       return;
     }
@@ -259,8 +259,12 @@ const MBTIBoard: React.FC = () => {
             >
               
               <h2 className="font-bold text-xl mb-2 font-custom">
-                {userName === post.nickname ? userName : userGoogleName}
+               {userName}
               </h2>
+              <h2 className="font-bold text-xl mb-2 font-custom">
+              {userEmail}
+              </h2>
+            
               
               <p className="font-custom">{post.content}</p>
               <div className="mt-2 flex justify-end text-sm text-gray-500">

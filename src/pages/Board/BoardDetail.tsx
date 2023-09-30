@@ -7,17 +7,18 @@ import { userNameSelector, userAtom } from "../login/atoms";
 
 interface Reply {
   id: number;
-  nickname: string;
+  name: string;
   content: string;
 }
 
 interface PostDetail {
-  createdAt: string;
-  updatedAt: string;
   id: number;
-  mbti: string;
-  nickname: string;
+  email: string;
+  name: string;
   content: string;
+  mbti: string;
+  createdAt: string; 
+  updatedAt: string; 
   replies: Reply[];
 }
 
@@ -118,7 +119,7 @@ const BoardDetail: React.FC = () => {
 
    // 댓글 작성자가 댓글을 수정하거나 삭제할 수 있는지를 확인하는 함수
    const isReplyAuthor = (reply: Reply) => {
-    return userName === reply.nickname;
+    return userName === reply.name;
   };
 
  const handleReplyDelete = async (replyId: number) => {
@@ -201,7 +202,7 @@ const BoardDetail: React.FC = () => {
     }
 
     const replyToEdit = replyList.find(reply => reply.id === replyId);
-    if (userName !== replyToEdit?.nickname) {
+    if (userName !== replyToEdit?.name) {
       alert("댓글 작성자만 수정할 수 있습니다.");
       return;
     }
@@ -234,7 +235,7 @@ const BoardDetail: React.FC = () => {
 
   // 작성자가 구글 이름이라면 게시글의 작성자를 구글 이름으로 렌더링하고,
   // 작성자가 구글 이름이 아니라면 게시글의 작성자를 사용자 이름으로 렌더링합니다.
-  const authorName = userName === post.nickname ? userName : post.nickname;
+  const authorName = userName === post.name ? userName : post.name;
 
   return (
     <div>
