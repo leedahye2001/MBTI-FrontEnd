@@ -1,4 +1,4 @@
-import { atom, selector } from "recoil";
+ import { atom, selector } from "recoil";
 
 export const isAuthenticatedAtom = atom<boolean>({
   key: "isAuthenticated",
@@ -32,4 +32,4 @@ export const userProfileSelector = selector({
     const user = get(userAtom);
     return user.profile;
   },
-});
+}); 

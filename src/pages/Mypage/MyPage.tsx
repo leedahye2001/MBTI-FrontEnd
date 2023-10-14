@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+ import { useEffect } from "react";
 import axios from "axios";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -86,4 +86,4 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default MyPage; 

@@ -93,6 +93,14 @@ const MbtiResult: React.FC<MbtiResultProps> = ({
           >
             다시 테스트 하러 가기 ⏎
           </Button>
+          <Button
+            onClick={() => {
+              onRestartTest();
+              setShowResult(false);
+            }}
+          >
+            게시판 이동 ⏎
+          </Button>
           <div
             onClick={() => {
               navigate("/");
