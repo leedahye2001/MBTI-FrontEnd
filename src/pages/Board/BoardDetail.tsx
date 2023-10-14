@@ -2,23 +2,20 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userNameSelector, userAtom } from "../login/atoms";
-
 interface Reply {
   id: number;
-  name: string;
   content: string;
+  password : string;
 }
 
 interface PostDetail {
   id: number;
-  email: string;
+  mbti: string;
   name: string;
   content: string;
-  mbti: string;
-  createdAt: string; 
-  updatedAt: string; 
+  password : string;
+  createdAt: string;
+  updatedAt: string;
   replies: Reply[];
 }
 
@@ -26,39 +23,8 @@ const BoardDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = useState<PostDetail | null>(null);
   const [newReply, setNewReply] = useState<string>("");
+  const [newReplyPassword, setNewReplyPassword] = useState<string>(""); // Add password state
   const [replyList, setReplyList] = useState<Reply[]>([]);
-  const [editingReplyId, setEditingReplyId] = useState<number | null>(null);
-  const [editedReplies, setEditedReplies] = useState<{ [key: number]: string }>(
-    {}
-  );
-
-  const userName = useRecoilValue(userNameSelector);
-  const setUser = useSetRecoilState(userAtom);
-
-  const fetchUserInfo = async () => {
-    try {
-      const response = await axios.get(
-        "https://gdscmbti.duckdns.org/v1/oauth/member/info",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          withCredentials: true, // 쿠키를 자동으로 전송하기 위해 설정
-        }
-      );
-      console.log(response.data);
-      const userInfo = response.data;
-      setUser(userInfo); // Recoil atom에 사용자 정보 저장
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error.response);
-      } else {
-        console.error("Other error:", error);
-      }
-    }
-  };
-
   const navigate = useNavigate();
 
   const fetchPostDetail = useCallback(async () => {
@@ -75,6 +41,9 @@ const BoardDetail: React.FC = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    fetchPostDetail();
+  }, [fetchPostDetail]);
 
   const fetchReplies = useCallback(async () => {
     try {
@@ -88,221 +57,86 @@ const BoardDetail: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
-    fetchUserInfo();
     fetchPostDetail();
-    fetchReplies();
+    fetchReplies(); // Fetch replies after fetching the post details
   }, [fetchPostDetail, fetchReplies]);
+
 
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (newReply.trim() === "") {
       return;
     }
-
+  
     try {
-      await axios.post<Reply>(
+       await axios.post<Reply>(
         `https://gdscmbti.duckdns.org/api/board/${id}/reply`,
         {
           content: newReply,
-          mbti: "INTP",
-          postId: id,
+          password : newReplyPassword, 
+          postId: id
         }
       );
-
+  
       setNewReply("");
       fetchReplies();
     } catch (error) {
       console.log(error);
     }
   };
+  
 
-   // 댓글 작성자가 댓글을 수정하거나 삭제할 수 있는지를 확인하는 함수
-   const isReplyAuthor = (reply: Reply) => {
-    return userName === reply.name;
-  };
-
- const handleReplyDelete = async (replyId: number) => {
-    const replyToDelete = replyList.find((reply) => reply.id === replyId);
-
-    if (!replyToDelete) {
-      return;
-    }
-
-    if (!isReplyAuthor(replyToDelete)) {
-      alert("댓글 작성자만 삭제할 수 있습니다.");
-      return;
-    }
-
+  const handleReplyDelete = async (replyId: number) => {
     try {
       await axios.delete(
         `https://gdscmbti.duckdns.org/api/board/${id}/reply/${replyId}`
       );
-
-      setReplyList((prevReplyList) =>
-        prevReplyList.filter((reply) => reply.id !== replyId)
+      const updatedReplyList = replyList.filter(
+        (reply) => reply.id !== replyId
       );
-
-      if (window.confirm("정말 삭제하시겠습니까?")) {
-        // 삭제 확인 여부 확인 후, 삭제 작업을 수행합니다.
-        // 여기서 삭제 작업을 하시면 됩니다.
-      }
+      setReplyList(updatedReplyList);
     } catch (error) {
       console.log(error);
     }
   };
+  
 
-  const handleReplyEdit = (replyId: number) => {
-    const replyToEdit = replyList.find((reply) => reply.id === replyId);
-
-    if (!replyToEdit) {
-      return;
-    }
-
-    if (!isReplyAuthor(replyToEdit)) {
-      alert("댓글 작성자만 수정할 수 있습니다.");
-      return;
-    }
-
-    setEditedReplies({
-      ...editedReplies,
-      [replyId]: replyToEdit.content,
-    });
-
-    setEditingReplyId(replyId);
-  };
-
-  const handleReplyUpdate = async (replyId: number) => {
-    const updatedContent = editedReplies[replyId];
-
-    if (!updatedContent?.trim()) {
-      return;
-    }
-
+  const handlePostDelete = async () => {
     try {
-      await axios.put(
-        `https://gdscmbti.duckdns.org/api/board/${id}/reply/${replyId}`,
-        {
-          content: updatedContent,
-        }
-      );
-
-      setEditingReplyId(null);
-      fetchReplies();
+      await axios.delete(`https://gdscmbti.duckdns.org/api/board/${id}`);
+      navigate("/"); // 게시물 삭제 후 게시판 목록으로 이동
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleReplySubmitEdit = async (replyId: number) => {
-    const updatedContent = editedReplies[replyId];
-
-    if (!updatedContent?.trim()) {
-      return;
-    }
-
-    const replyToEdit = replyList.find(reply => reply.id === replyId);
-    if (userName !== replyToEdit?.name) {
-      alert("댓글 작성자만 수정할 수 있습니다.");
-      return;
-    }
-
-    try {
-      await axios.put(
-        `https://gdscmbti.duckdns.org/api/board/${id}/reply/${replyId}`,
-        {
-          content: updatedContent,
-        }
-      );
-      setEditingReplyId(null);
-      fetchReplies();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleReplyCancelEdit = () => {
-    setEditingReplyId(null);
-  };
-
-  const handlePrevious = () => {
-    navigate('/mbtiboard');
   };
 
   if (!post) {
     return <div>Loading...</div>;
   }
 
-  // 작성자가 구글 이름이라면 게시글의 작성자를 구글 이름으로 렌더링하고,
-  // 작성자가 구글 이름이 아니라면 게시글의 작성자를 사용자 이름으로 렌더링합니다.
-  const authorName = userName === post.name ? userName : post.name;
-
   return (
     <div>
       <div className="bg-white shadow p-4 mb-4 text-center">
-        {userName && <h2 className="font-bold text-xl mb-2 font-custom">{authorName}</h2>}
+        <h2 className="text-xl font-bold mb-2">{post.name}</h2>
         <p className="text-base">{post.content}</p>
       </div>
       <div className="bg-white shadow p-4">
-        <h3 className="text-lg font-bold mb-2">👇  댓글은 여기다 적어!</h3>
-        {replyList.map((reply, index) => (
-          <div className="flex items-center" key={`reply-${index}`}>
-            {userName && ( 
-            <h4 className="font-bold flex-shrink-0">{userName}</h4>)
-            }
-            {editingReplyId === reply.id ? (
-              <>
-                <input
-                  type="text"
-                  value={editedReplies[reply.id] || reply.content}
-                  onChange={(e) => {
-                    // Update the editedReplies state whenever the input field changes
-                    setEditedReplies({
-                      ...editedReplies,
-                      [reply.id]: e.target.value,
-                    });
-                  }}
-                  onBlur={() => handleReplyUpdate(reply.id)}
-                  className="border border-gray-300 rounded p-2 mr-2"
-                />
-                <button
-                  onClick={() => handleReplySubmitEdit(reply.id)}
-                  className="text-green-500 hover:text-purple-700 mr-2"
-                >
-                  수정 완료
-                </button>
-                <button
-                  onClick={handleReplyCancelEdit}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  취소
-                </button>
-              </>
-            ) : (
-              <>
-                <p className="text-sm flex-grow">{reply.content}</p>
-                <button
-                  onClick={() => handleReplyEdit(reply.id)}
-                  className="text-purple-500 hover:text-purple-700 mr-2"
-                >
-                  수정
-                </button>
-                <button
-                  onClick={() => handleReplyDelete(reply.id)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  삭제
-                </button>
-              </>
-            )}
-          </div>
-        ))}
+        <h3 className="text-lg font-bold mb-2">댓글</h3>
+{replyList.map((reply, index) => (
+  <div className="flex items-center" key={`reply-${index}`}>
+    <p className="text-sm flex-grow">{reply.content}</p>
+    <button
+      onClick={() => handleReplyDelete(reply.id)}
+      className="text-red-500 hover:text-red-700"
+    >
+      삭제
+    </button>
+  </div>
+))}
 
-        <form onSubmit={handleReplySubmit} className="mt-4">
-          
-          {userName && ( 
-          <h4 className="font-bold text-xl mb-2 font-custom">{userName}</h4>)
-          }
+
+<form onSubmit={handleReplySubmit} className="mt-4" key="reply-form">
           <input
             type="text"
             value={newReply}
@@ -310,20 +144,26 @@ const BoardDetail: React.FC = () => {
             placeholder="댓글을 입력하세요."
             className="border border-gray-300 rounded p-2 mr-2"
           />
-
+           <input
+          type="password"
+          value={newReplyPassword}
+          onChange={(e) => setNewReplyPassword(e.target.value)}
+          placeholder="비밀번호를 입력하세요."
+          className="border border-gray-300 rounded p-2 mr-2"
+        />
           <button
             type="submit"
-            className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
           >
             댓글 작성
           </button>
         </form>
       </div>
       <button
-        onClick={handlePrevious}
-        className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 mt-5"
+        onClick={handlePostDelete}
+        className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2 mr-2 mb-2"
       >
-        게시판으로
+        게시글 삭제
       </button>
     </div>
   );
