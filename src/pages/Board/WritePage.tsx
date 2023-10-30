@@ -46,13 +46,20 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
       alert('내용을 입력하세요.');
       return;
     }
+
+    if (password.trim() === '') {
+      alert('비밀번호를 입력하세요.'); // 비밀번호 누락 시 경고
+      return;
+    }
+
     try {
       setIsSubmitting(true);
       const newPost = {
         mbti: mbti,
         name: name,
         content: content,
-        password: password
+        password: password // 입력한 비밀번호를 포함시킴
+        
       };
       await axios.post('https://gdscmbti.duckdns.org/api/board/write', newPost);
 
@@ -60,7 +67,7 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
         onPostSubmit(content); // Add the content to the board
         setContent('');
         // Move the navigate logic here after the axios request
-        navigate('/totalboard');
+        navigate('/mbtiboard');
       }
     } catch (error) {
       console.log(error);
@@ -70,7 +77,7 @@ const WritePage: React.FC<WritePageProps> = ({ onPostSubmit }) => {
   };
 
   const handlePrevious = () => {
-    navigate('/totalboard');
+    navigate('/mbtiboard');
   };
 
   return (
