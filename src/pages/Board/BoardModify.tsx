@@ -46,8 +46,7 @@ const BoardModify = () => {
           // Update the post with the new content
           await axios.put(`https://gdscmbti.duckdns.org/api/board/${id}`, { ...post, content });
         }
-
-        // Navigate to the post detail page
+        alert('글이 수정되었습니다.');
         navigate(`/mbtiboard`);
       } else {
         alert('포스트를 찾을 수 없습니다.');
@@ -58,14 +57,14 @@ const BoardModify = () => {
   };
   
   const handlePrevious = () => {
-    navigate('/totalboard');
+    navigate('/mbtiboard');
   };
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-200">
       <div className="max-w-md w-4/5 mx-auto p-4 bg-white rounded-lg">
         <div className="flex justify-center">
-          <h1 className="text-3xl font-medium text-gray-900 dark:text-white">Board Modify</h1>
+          <h1 className="text-3xl font-medium text-gray-900 dark:text-white">👇 Modify Something!</h1>
         </div>
         <form onSubmit={handleFormSubmit} className="mt-4">
           <textarea
