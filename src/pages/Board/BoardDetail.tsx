@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams  } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 interface Reply {
@@ -7,7 +7,7 @@ interface Reply {
   mbti: string;
   name: string;
   content: string;
-  password : string;
+  password: string;
 }
 
 interface PostDetail {
@@ -15,7 +15,7 @@ interface PostDetail {
   mbti: string;
   name: string;
   content: string;
-  password : string;
+  password: string;
   createdAt: string;
   updatedAt: string;
   replies: Reply[];
@@ -26,7 +26,7 @@ const BoardDetail: React.FC = () => {
   const [post, setPost] = useState<PostDetail | null>(null);
   const [newReply, setNewReply] = useState<string>("");
   const [newReplyName, setNewReplyName] = useState<string>(""); // Add password state
-  const [newReplyMbti, setnNewReplyMbti] = useState<string>(""); // Add password state
+  const [newReplyMbti, setNewReplyMbti] = useState<string>(""); // Add password state
   const [newReplyPassword, setNewReplyPassword] = useState<string>(""); // Add password state
   const [replyList, setReplyList] = useState<Reply[]>([]);
 
@@ -64,50 +64,59 @@ const BoardDetail: React.FC = () => {
     fetchReplies(); // Fetch replies after fetching the post details
   }, [fetchPostDetail, fetchReplies]);
 
-
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     if (newReply.trim() === "") {
       return;
     }
-  
+
     try {
-       await axios.post<Reply>(
+      await axios.post<Reply>(
         `https://gdscmbti.duckdns.org/api/board/${id}/reply`,
         {
-          mbti: newReplyMbti, 
+          mbti: newReplyMbti,
           name: newReplyName,
           content: newReply,
-          password : newReplyPassword, 
-          postId: id
+          password: newReplyPassword,
+          postId: id,
         }
       );
-  
+
       setNewReply("");
       fetchReplies();
     } catch (error) {
       console.log(error);
     }
   };
-  
 
   const handleReplyDelete = async (replyId: number) => {
-    try {
-      await axios.delete(
-        `https://gdscmbti.duckdns.org/api/board/${id}/reply/${replyId}`
-      );
-      const updatedReplyList = replyList.filter(
-        (reply) => reply.id !== replyId
-      );
-      setReplyList(updatedReplyList);
-    } catch (error) {
-      console.log(error);
+    const password = prompt("댓글을 삭제하려면 비밀번호를 입력하세요.");
+
+    if (password !== null) {
+      try {
+        // 비밀번호와 게시글 ID를 서버로 전송
+        const response = await axios.delete(
+          `https://gdscmbti.duckdns.org/api/board/${id}/reply/${replyId}`,
+          {
+            data: { password },
+          }
+        );
+
+        if (response.data.success) {
+          // 삭제 요청이 성공한 경우
+          const updatedReplies = replyList.filter((reply) => reply.id !== replyId);
+          setReplyList(updatedReplies);
+        } else {
+          alert("댓글이 성공적으로 삭제되었습니다.");
+          window.location.reload();
+        }
+      } catch (error) {
+        console.log(error);
+        alert("댓글 삭제 중 오류가 발생했습니다.");
+      }
     }
   };
-  
-
-
 
   if (!post) {
     return <div>Loading...</div>;
@@ -121,61 +130,60 @@ const BoardDetail: React.FC = () => {
       </div>
       <div className="bg-white shadow p-4">
         <h3 className="text-lg font-bold mb-2">댓글</h3>
-{replyList.map((reply, index) => (
-  <div className="flex items-center" key={`reply-${index}`}>
-    <p className="text-sm flex-grow">{reply.name}</p>
-    <p className="text-sm flex-grow">{reply.mbti}</p>
-    <p className="text-sm flex-grow">{reply.content}</p>
-    <button
-      onClick={() => handleReplyDelete(reply.id)}
-      className="text-red-500 hover:text-red-700"
-    >
-      삭제
-    </button>
-  </div>
-))}
+        {replyList.map((reply, index) => (
+          <div className="flex items-center" key={`reply-${index}`}>
+            <p className="text-sm flex-grow">{reply.name}</p>
+            <p className="text-sm flex-grow">{reply.mbti}</p>
+            <p className="text-sm flex-grow">{reply.content}</p>
+            <button
+              onClick={() => handleReplyDelete(reply.id)}
+              className="text-red-500 hover:text-red-700"
+            >
+              삭제
+            </button>
+          </div>
+        ))}
 
+        <form onSubmit={handleReplySubmit} className="mt-4" key="reply-form">
+          <input
+            type="text"
+            value={newReplyName}
+            onChange={(e) => setNewReplyName(e.target.value)}
+            placeholder="이름을 입력하세요."
+            className="border border-gray-300 rounded p-2 mr-2"
+          />
 
-<form onSubmit={handleReplySubmit} className="mt-4" key="reply-form">
-  <input
-    type="text"
-    value={newReplyName}
-    onChange={(e) => setNewReplyName(e.target.value)}
-    placeholder="이름을 입력하세요."
-    className="border border-gray-300 rounded p-2 mr-2"
-  />
+          <input
+            type="text"
+            value={newReplyMbti}
+            onChange={(e) => setNewReplyMbti(e.target.value)}
+            placeholder="본인의 MBTI를 입력하세요."
+            className="border border-gray-300 rounded p-2 mr-2"
+          />
 
-  <input
-    type="text"
-    value={newReplyMbti}
-    onChange={(e) => setnNewReplyMbti(e.target.value)}
-    placeholder="본인의 mbti를 입력하세요."
-    className="border border-gray-300 rounded p-2 mr-2"
-  />
+          <input
+            type="text"
+            value={newReply}
+            onChange={(e) => setNewReply(e.target.value)}
+            placeholder="댓글을 입력하세요."
+            className="border border-gray-300 rounded p-2 mr-2"
+          />
 
-  <input
-    type="text"
-    value={newReply}
-    onChange={(e) => setNewReply(e.target.value)}
-    placeholder="댓글을 입력하세요."
-    className="border border-gray-300 rounded p-2 mr-2"
-  />
-
-  <input
-    type="password"
-    value={newReplyPassword}
-    onChange={(e) => setNewReplyPassword(e.target.value)}
-    placeholder="비밀번호를 입력하세요."
-    className="border border-gray-300 rounded p-2 mr-2"
-  />
-
-  <button
-    type="submit"
-    className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-  >
-    댓글 작성
-  </button>
-</form>
+          <input
+            type="password"
+            value={newReplyPassword}
+            onChange={(e) => setNewReplyPassword(e.target.value)}
+            placeholder="비밀번호를 입력하세요."
+            className="border border-gray-300 rounded p-2 mr-2"
+          />
+      
+          <button
+            type="submit"
+            className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          >
+            댓글 작성
+          </button>
+        </form>
       </div>
     </div>
   );
