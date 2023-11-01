@@ -105,6 +105,22 @@ const MBTIBoard: React.FC = () => {
     navigate(`/boardmodify/${postId}`);
   };
 
+  const handleSelectAll = () => {
+    if (selectedMbti.length === 15) {
+      // If all MBTI is already selected, clear the selection
+      setSelectedMbti([]);
+    } else {
+      // If not all MBTI is selected, select all
+      setSelectedMbti([
+        "ISTJ", "ISFJ", "INFJ", "INTJ",
+        "ISTP", "ISFP", "INFP", "INTP",
+        "ESTP", "ESFP", "ENFP", "ENTP",
+        "ESTJ", "ESFJ", "ENFJ"
+      ]);
+    }
+    setConfirmFiltering(false); // Reset the confirmFiltering state when the "전체" checkbox is clicked
+  };
+
   const handleMbtiCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -137,49 +153,56 @@ const MBTIBoard: React.FC = () => {
       <div className="flex flex-col min-h-screen">
         <div className="flex-grow">
           {/* MBTI Checkboxes */}
-          <div className="flex flex-wrap items-center justify-center mt-10">
-            {" "}
-            {/* Center align the checkboxes */}
-            {[
-              "ISTJ",
-              "ISFJ",
-              "INFJ",
-              "INTJ",
-              "ISTP",
-              "ISFP",
-              "INFP",
-              "INTP",
-              "ESTP",
-              "ESFP",
-              "ENFP",
-              "ENTP",
-              "ESTJ",
-              "ESFJ",
-              "ENFJ",
-            ].map((mbti) => (
-              <div className="flex items-center mr-4" key={mbti}>
+                   <div className="flex flex-wrap items-center justify-center mt-10">
+            <div className="grid grid-cols-4 gap-4">
+              <div className="flex items-center">
                 <input
-                  checked={selectedMbti.includes(mbti)}
-                  id={`${mbti.toLowerCase()}-checkbox`}
+                  checked={selectedMbti.length === 15}
+                  id="all-checkbox"
                   type="checkbox"
-                  value={mbti}
-                  className={`w-4 h-4 text-${mbti.toLowerCase()}-600 bg-gray-100 border-gray-300 rounded focus:ring-${mbti.toLowerCase()}-500 dark:focus:ring-${mbti.toLowerCase()}-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
-                  onChange={handleMbtiCheckboxChange}
+                  value="전체"
+                  className={`w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
+                  onChange={handleSelectAll}
                 />
                 <label
-                  htmlFor={`${mbti.toLowerCase()}-checkbox`}
+                  htmlFor="all-checkbox"
                   className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                 >
-                  {mbti}
+                  전체
                 </label>
               </div>
-            ))}
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow ml-4 bg-gradient-to-r from-blue-500 to-blue-700" // Apply gradient background
-              onClick={handleApplyFilters}
-            >
-              적용
-            </button>
+              {[
+                "ISTJ", "ISFJ", "INFJ", 
+                "INTJ","ISTP", "ISFP", "INFP",
+                 "INTP","ESTP", "ESFP", "ENFP", 
+                "ENTP","ESTJ", "ESFJ", "ENFJ"
+              ].map((mbti) => (
+                <div className="flex items-center" key={mbti}>
+                  <input
+                    checked={selectedMbti.includes(mbti)}
+                    id={`${mbti.toLowerCase()}-checkbox`}
+                    type="checkbox"
+                    value={mbti}
+                    className={`w-4 h-4 text-${mbti.toLowerCase()}-600 bg-gray-100 border-gray-300 rounded focus:ring-${mbti.toLowerCase()}-500 dark:focus:ring-${mbti.toLowerCase()}-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
+                    onChange={handleMbtiCheckboxChange}
+                  />
+                  <label
+                    htmlFor={`${mbti.toLowerCase()}-checkbox`}
+                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    {mbti}
+                  </label>
+                </div>
+              ))}
+              <div className="col-span-4 flex justify-center mt-4">
+                <button
+                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  onClick={handleApplyFilters}
+                >
+                  적용
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Render Posts */}
@@ -229,16 +252,20 @@ const MBTIBoard: React.FC = () => {
           </div>
 
           {/* Write Button */}
-          <div className="flex m-4">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-2 px-4 rounded shadow ml-auto"
-              onClick={handleButtonClick}
-            >
-              글 작성
-            </button>
-          </div>
+          <div className="flex m-4 justify-content-flex-end">
+          <button
+            className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center py-2 px-4 rounded shadow ml-auto"
+            onClick={handleButtonClick}
+          >
+            글 작성
+          </button>
         </div>
-      </div>
+        </div>
+
+        </div>
+        
+
+          
     </>
   );
 };
